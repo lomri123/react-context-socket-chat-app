@@ -1,16 +1,20 @@
 const mongoose = require("mongoose");
 
-const roomSchema = new mongoose.Schema({
-  subject: { type: String, unique: true },
-  updatedAt: { type: Date },
-  messages: [{
-    text : String,
-    from: String,
-    to: String,
-    read: Boolean,
-    created_at: Date
-     }]
-});
+const roomSchema = new mongoose.Schema(
+  {
+    title: { type: String, unique: true },
+    description: { type: String },
+    messages: [
+      {
+        text: String,
+        from: String,
+        to: String,
+        sentAt: Date,
+      },
+    ],
+  },
+  { timestamps: true }
+);
 
 const Room = mongoose.model("rooms", roomSchema);
 

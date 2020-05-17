@@ -1,48 +1,26 @@
 import React, { useReducer } from "react";
-import chatReducer from "./reducers/chatReducer";
+import messageReducer from "./reducers/messageReducer";
 import roomReducer from "./reducers/roomReducer";
 import activeRoomReducer from "./reducers/activeRoomReducer";
 export const Context = React.createContext();
 
-const initialMessageList = [
-  { from: "omri1", room: "room1", messageText: "text1", time: "time" },
-  { from: "omri2", room: "room2", messageText: "text2", time: "time" },
-  { from: "mor1", room: "room1", messageText: "text1", time: "time" },
-  { from: "mor2", room: "room2", messageText: "text2", time: "time" }
-];
-
+const initialMessageList = [];
 const initialRoomList = [
   {
-    roomName: "room1",
-    roomDesc: "text1",
-    roomImg: "https://ptetutorials.com/images/user-profile.png"
-  },
-  {
-    roomName: "room2",
-    roomDesc: "text2",
-    roomImg: "https://ptetutorials.com/images/user-profile.png"
-  },
-  {
-    roomName: "room3",
-    roomDesc: "text3",
-    roomImg: "https://ptetutorials.com/images/user-profile.png"
-  },
-  {
-    roomName: "room4",
-    roomDesc: "text4",
-    roomImg: "https://ptetutorials.com/images/user-profile.png"
+    roomName: "Lobby",
+    roomDesc: "Landing room",
+    roomImg: "https://ptetutorials.com/images/user-profile.png",
+    _id: "5ec176fdd9b4cb42dc2b2181"
   }
 ];
-
-const initialActiveRoom = "room1";
+const initialActiveRoom = "5ec176fdd9b4cb42dc2b2181";
 
 function Provider(props) {
   const [messageData, dispatchMessageData] = useReducer(
-    chatReducer,
+    messageReducer,
     initialMessageList
   );
   const [roomList, dispatchRoomList] = useReducer(roomReducer, initialRoomList);
-
   const [activeRoom, dispatchActiveRoom] = useReducer(
     activeRoomReducer,
     initialActiveRoom

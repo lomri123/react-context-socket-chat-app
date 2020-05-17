@@ -1,29 +1,33 @@
-
 const Room = require("../roomModel");
 
 const fetchAllRooms = () => {
-  return Room.find().sort({ _id: -1 });
+  return Room.find({}, { _id: 1, title: 1, description: 1 });
 };
 
-const fetchRoom = id => {
+const fetchShallowRooms = () => {
+  return Room.find({}, { messages: { $slice: [0, 1] } });
+};
+
+const fetchRoom = (id) => {
   return Room.findById(id);
 };
 
-const deleteRoom = id => {
+const deleteRoom = (id) => {
   return Room.findByIdAndDelete(id);
 };
 
 const updateRoom = (id, updateData) => {
   return Room.findByIdAndUpdate(id, {
-    $set: updateData
+    $set: updateData,
   });
 };
 
-const addRoom = RoomData => {
+const addRoom = (RoomData) => {
+  const { title, description, messages } = RoomData;
   const room = {
-    subject: RoomData.subject,
-    updatedAt: RoomData.updatedAt,
-    messages: []
+    title,
+    description,
+    messages,
   };
   const tmpRoomSchema = new Room(room);
   const result = tmpRoomSchema.save();
@@ -31,9 +35,10 @@ const addRoom = RoomData => {
 };
 
 module.exports = {
-  fetchAllRooms, 
+  fetchAllRooms,
+  fetchShallowRooms,
   deleteRoom,
   updateRoom,
   fetchRoom,
-  addRoom
+  addRoom,
 };

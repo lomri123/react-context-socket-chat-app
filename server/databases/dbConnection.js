@@ -9,7 +9,8 @@ if (process.env.MONGO_URL) {
     .connect(connectionString, {
       useNewUrlParser: true,
       useFindAndModify: false,
-      useCreateIndex: true
+      useCreateIndex: true,
+      useUnifiedTopology: true
     })
     .then(() => console.log("connection successful"))
     .catch(err => console.error(err));

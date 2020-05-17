@@ -2,28 +2,39 @@ import React, { useContext, useEffect } from "react";
 import { Context } from "../contexts/DataStore";
 import SingleRoom from "../components/roomNavigator/SingleRoom";
 import RoomSearch from "../components/roomNavigator/RoomSearch";
+import socket from "./../services/socket";
+import { getRooms } from "./../services/chatData";
 
 function RoomContainer() {
   useEffect(() => {
     console.log("RoomContainer");
-  });
+    getRooms()
+      .then((response) => addNewRooms(response.data.result))
+      .catch((error) => console.log(error));
+    socket.on("room", (data) => {
+      console.log(data);
+    });
+  }, []);
   const {
     roomList,
     dispatchRoomList,
     activeRoom,
-    dispatchActiveRoom
+    dispatchActiveRoom,
   } = useContext(Context);
 
-  const handleRoomOnClick = room => {
+  const handleRoomOnClick = (room) => {
     dispatchActiveRoom({ type: "TOGGLE_ACTIVE_ROOM", selectedRoom: room });
   };
-  const handleRoomSearch = evt => {
-    console.log()
+  const addNewRooms = (rooms) => {
+    dispatchRoomList({ type: "ADD_ROOMS", rooms });
+  };
+  const handleRoomSearch = (evt) => {
+    console.log(evt);
   };
   return (
     <>
       <div className="inbox_people">
-        <RoomSearch handleRoomSearch={handleRoomSearch}/>
+        <RoomSearch handleRoomSearch={handleRoomSearch} />
         <SingleRoom
           chatListProps={roomList}
           handleRoomOnClick={handleRoomOnClick}

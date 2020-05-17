@@ -9,7 +9,6 @@ function App() {
   return (
     <Provider>
       <div className="container">
-        <h1>Chat app</h1>
         <ChatContainer />
       </div>
     </Provider>

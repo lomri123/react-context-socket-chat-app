@@ -3,14 +3,14 @@ import { MessageBuilder } from "./MessageBuilder";
 
 function SingleMessage({ messageListProps }) {
   useEffect(() => {
-    console.log("SingleMessage");
+    console.log("SingleMessage", messageListProps);
   });
-  const messageList = messageListProps.map(msg => (
+  const messageList = messageListProps.map((msg) => (
     <MessageBuilder
       messageFrom={msg.from}
-      messageText={msg.messageText}
+      messageText={msg.text}
       messageTime={msg.time}
-      key={msg.from + "" + msg.messageText}
+      key={msg._id}
     />
   ));
   return (

@@ -1,51 +1,56 @@
 const router = require("express").Router();
 const {
-  fetchAllTodos,
-  deleteTodo,
-  updateTodo,
-  fetchTodo,
-  addTodo
-} = require("./listQueries");
+  fetchAllMessages,
+  fetchMessagesRange,
+  deleteMessage,
+  updateMessage,
+  addMessage,
+} = require("../models/queries/messageQueries");
 
-router.get("/", async (req, res) => {
-  try {
-    const result = await fetchAllTodos();
-    res.send({ result });
-  } catch (ex) {
-    res.status(404).send("something went wrong");
-  }
-});
+// router.get("/", async (req, res) => {
+//   try {
+//     const result = await fetchAllMessages(req.body.id);
+//     res.send({ result });
+//   } catch (ex) {
+//     res.status(404).send("something went wrong");
+//   }
+// });
 
 router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  const { start, quantity } = req.body;
   try {
-    const result = await fetchTodo(req.params.id);
-    res.send({ result });
+    const result = await fetchMessagesRange(id, start, quantity);
+    res.send(result.messages);
   } catch (ex) {
     res.status(404).send("the id you entered is not valid");
   }
 });
 
-router.put("/", async (req, res) => {
+router.put("/:roomId/:messageId", async (req, res) => {
+  const { roomId, messageId } = req.params;
+  const { message } = req.body;
   try {
-    const result = await updateTodo(req.body.id, req.body.updateData);
+    const result = await updateMessage(roomId, messageId, message);
     res.send({ result });
   } catch (ex) {
     res.status(404).send(ex.errors);
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:roomId/:messageId", async (req, res) => {
+  const { roomId, messageId } = req.params;
   try {
-    const result = await deleteTodo(req.params.id);
+    const result = await deleteMessage(roomId, messageId);
     res.send({ result });
   } catch (ex) {
     res.status(404).send("the id you entered is not valid");
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/:id", async (req, res) => {
   try {
-    let result = await addTodo(req.body.todoData);
+    let result = await addMessage(req.body.message, req.params.id);
     res.send(result);
   } catch (ex) {
     res.status(404).send(ex.errors);

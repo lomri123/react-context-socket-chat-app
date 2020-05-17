@@ -1,39 +1,44 @@
-
 const Room = require("../roomModel");
 
-const fetchAllMessages = () => {
-  return Room.find().sort({ _id: -1 });
-};
-
-const fetchMessage = id => {
+const fetchAllMessages = (id) => {
   return Room.findById(id);
 };
 
-const deleteMessage = id => {
-  return Room.findByIdAndDelete(id);
+const fetchMessagesRange = (id, start = 0, quantity = 10) => {
+  return Room.findById(id, { messages: { $slice: [start, quantity] } });
 };
 
-const updateMessage = (id, updateData) => {
+const deleteMessage = (roomId, messageId) => {
+  return Room.updateOne(
+    { _id: roomId },
+    { $pull: { messages: { _id: messageId } } }
+  );
+};
+
+const updateMessage = (roomid, messageId, message) => {
+  return Room.updateOne(
+    { _id: roomid, "messages.id": messageId },
+    { $set: message }
+  );
+};
+
+const addMessage = (MessageData, id) => {
+  const { text, from, to, createdAt } = MessageData;
+  const message = {
+    text,
+    from,
+    to,
+    createdAt,
+  };
   return Room.findByIdAndUpdate(id, {
-    $set: updateData
+    $push: { messages: message },
   });
 };
 
-const addMessage = MessageData => {
-  const room = {
-    subject: RoomData.subject,
-    updatedAt: RoomData.updatedAt,
-    messages: []
-  };
-  const tmpRoomSchema = new Room(room);
-  const result = tmpRoomSchema.save();
-  return result;
-};
-
 module.exports = {
-  fetchAllMessages, 
+  fetchAllMessages,
+  fetchMessagesRange,
   deleteMessage,
   updateMessage,
-  fetchMessage,
-  addMessage
+  addMessage,
 };

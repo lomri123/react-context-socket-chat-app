@@ -1,9 +1,14 @@
-import { ADD_MESSAGE } from "../actions/actionTypes";
+import { ADD_ROOM, ADD_ROOMS } from "../actions/actionTypes";
 
 const reducer = (state, action) => {
-  const { roomName, roomDesc, roomImg } = action;
-  switch (action.type) {
-    case ADD_MESSAGE:
+  const { roomName, roomDesc, roomImg, type, rooms } = action;
+  switch (type) {
+    case ADD_ROOMS:
+      return [
+        ...state,
+        ...rooms
+      ]; 
+    case ADD_ROOM:
       return [
         ...state,
         {
