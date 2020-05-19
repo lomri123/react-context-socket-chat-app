@@ -14,7 +14,7 @@ export const getRooms = () => {
 };
 
 export const getMessages = (
-  room = "5ec176fdd9b4cb42dc2b2181",
+  room = "5ec3224716239d08946e5696",
   start = -10,
   quantity = 10
 ) => {
@@ -30,11 +30,9 @@ export const getMessages = (
   return new Promise((res, rej) => {
     axios(options)
       .then(function (response) {
-        // handle success
         res(response);
       })
       .catch(function (error) {
-        // handle error
         rej(error);
       });
   });

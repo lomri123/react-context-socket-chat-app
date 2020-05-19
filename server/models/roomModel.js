@@ -8,7 +8,6 @@ const roomSchema = new mongoose.Schema(
       {
         text: String,
         from: String,
-        to: String,
         sentAt: Date,
       },
     ],

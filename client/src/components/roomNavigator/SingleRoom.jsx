@@ -1,30 +1,28 @@
-import React, { useEffect } from "react";
-import { RoomBuilder } from "./RoomBuilder";
+import React from "react";
 
-function SingleRoom({
-  chatListProps,
+export const SingleRoom = ({
+  roomName,
+  roomDesc,
+  roomImg,
   handleRoomOnClick,
-  activeRoomProps
-}) {
-  const roomList = chatListProps.map(room => (
-    <RoomBuilder
-      roomName={room.roomName}
-      roomDesc={room.roomDesc}
-      roomImg={room.roomImg}
-      handleRoomOnClick={handleRoomOnClick}
-      activeRoomProps={activeRoomProps}
-      key={room.roomName}
-    />
-  ));
-
-  useEffect(() => {
-    console.log("singleRoom");
-  });
+  activeRoomProps,
+}) => {
   return (
-    <>
-      <div className="inbox_chat">{roomList}</div>
-    </>
+    <div
+      className={`chat_list ${
+        roomName === activeRoomProps ? "active_chat" : ""
+      }`}
+      onClick={() => handleRoomOnClick(roomName)}
+    >
+      <div className="chat_people">
+        <div className="chat_img">
+          <img src={roomImg} alt="sunil" />
+        </div>
+        <div className="chat_ib">
+          <h5>{roomName}</h5>
+          <p>{roomDesc}</p>
+        </div>
+      </div>
+    </div>
   );
-}
-
-export default SingleRoom;
+};

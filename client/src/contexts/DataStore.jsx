@@ -5,15 +5,8 @@ import activeRoomReducer from "./reducers/activeRoomReducer";
 export const Context = React.createContext();
 
 const initialMessageList = [];
-const initialRoomList = [
-  {
-    roomName: "Lobby",
-    roomDesc: "Landing room",
-    roomImg: "https://ptetutorials.com/images/user-profile.png",
-    _id: "5ec176fdd9b4cb42dc2b2181"
-  }
-];
-const initialActiveRoom = "5ec176fdd9b4cb42dc2b2181";
+const initialRoomList = [];
+const initialActiveRoom = "5ec3224716239d08946e5696";
 
 function Provider(props) {
   const [messageData, dispatchMessageData] = useReducer(
@@ -34,7 +27,7 @@ function Provider(props) {
         roomList,
         dispatchRoomList,
         activeRoom,
-        dispatchActiveRoom
+        dispatchActiveRoom,
       }}
     >
       {props.children}

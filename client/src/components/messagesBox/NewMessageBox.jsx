@@ -1,24 +1,23 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { getDateTime } from '../../utils/getDateTime';
+import { getDateTime } from "../../utils/getDateTime";
 
-
-function NewMessageBox({ addNewMessage }) {
+function NewMessageBox({ sendNewMessage }) {
   const [newMessageData, updateNewMessageData] = useState("");
-  const handleMessageFormChange = e => {
+  const handleMessageFormChange = (e) => {
     let value = e.target.value;
     updateNewMessageData(value);
   };
 
-  const handleMessageSubmit = e => {
+  const handleMessageSubmit = (e) => {
     e.preventDefault();
     if (newMessageData !== "") {
       let tmpMessage = {
         from: "test_add",
         room: "test_room",
-        messageText: newMessageData,
-        time: getDateTime()
+        text: newMessageData,
+        createdAt: getDateTime(),
       };
-      addNewMessage(tmpMessage);
+      sendNewMessage(tmpMessage);
       updateNewMessageData("");
     }
   };
@@ -34,7 +33,7 @@ function NewMessageBox({ addNewMessage }) {
             className="write_msg"
             placeholder="Type a message"
             value={newMessageData}
-            onChange={e => handleMessageFormChange(e)}
+            onChange={(e) => handleMessageFormChange(e)}
           />
           <button className="msg_send_btn" type="submit">
             <i className="fa fa-paper-plane-o" aria-hidden="true"></i>

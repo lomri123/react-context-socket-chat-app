@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../contexts/DataStore";
-import SingleRoom from "../components/roomNavigator/SingleRoom";
+import RoomList from "../components/roomNavigator/RoomList";
 import RoomSearch from "../components/roomNavigator/RoomSearch";
 import socket from "./../services/socket";
 import { getRooms } from "./../services/chatData";
@@ -26,6 +26,7 @@ function RoomContainer() {
     dispatchActiveRoom({ type: "TOGGLE_ACTIVE_ROOM", selectedRoom: room });
   };
   const addNewRooms = (rooms) => {
+    console.log(rooms);
     dispatchRoomList({ type: "ADD_ROOMS", rooms });
   };
   const handleRoomSearch = (evt) => {
@@ -35,7 +36,7 @@ function RoomContainer() {
     <>
       <div className="inbox_people">
         <RoomSearch handleRoomSearch={handleRoomSearch} />
-        <SingleRoom
+        <RoomList
           chatListProps={roomList}
           handleRoomOnClick={handleRoomOnClick}
           activeRoomProps={activeRoom}

@@ -22,15 +22,14 @@ const updateMessage = (roomid, messageId, message) => {
   );
 };
 
-const addMessage = (MessageData, id) => {
-  const { text, from, to, createdAt } = MessageData;
+const addMessage = (MessageData, room) => {
+  const { text, from, createdAt } = MessageData;
   const message = {
     text,
     from,
-    to,
     createdAt,
   };
-  return Room.findByIdAndUpdate(id, {
+  return Room.findByIdAndUpdate(room, {
     $push: { messages: message },
   });
 };
