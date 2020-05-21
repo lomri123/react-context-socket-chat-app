@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import { newUser } from "./../services/userData";
+import { newUser } from "./../services/userApi";
 
 const customStyles = {
   content: {
@@ -33,11 +33,12 @@ function LoginPopup({ userLogin }) {
     e.preventDefault();
     try {
       const result = await newUser(nickname);
-      userLogin(result.data);
+      const user = { ...result.data, room: "5ec3224716239d08946e5696" };
+      userLogin(user, true);
       closeModal();
     } catch (error) {
       let errorMessage = "something went wrong";
-      if (error.response.status === 409) {
+      if (error?.response?.status === 409) {
         errorMessage = "nickname already taken";
       }
       setError(errorMessage);

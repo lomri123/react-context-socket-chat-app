@@ -12,29 +12,51 @@ const roomController = require("./controllers/roomController");
 const messageController = require("./controllers/messageController");
 const userController = require("./controllers/userController");
 const { addMessage } = require("./models/queries/messageQueries");
+const {
+  userJoin,
+  getCurrentUser,
+  userLeave,
+  getRoomUsers,
+} = require("./databases/localDB");
 
 app.use("/api/rooms", roomController);
 app.use("/api/messages", messageController);
 app.use("/api/users", userController);
 
 io.on("connection", (client) => {
-  // client.emit("message", {from: "Admin", text: "you are logged into the chat"});
-  // client.broadcast.emit("message", "a user joined the chat");
-  client.on("newMessage", async (data) => {
-    const { room, message } = data;
-    console.log(room, message);
-    try {
-      const result = await addMessage(message, room);
-      io.to(room).emit("message", { message: result, tmpId: message._id });
-    } catch (error) {
-      client.emit("message", {
-        from: "Admin",
-        text: "problem sending message" + data,
-      });
-    }
-  });
-  client.on("disconnect", () => {
-    /* … */
+  client.on("joinRoom", async (data) => {
+    const { username, room } = data;
+    userJoin(socket.id, username, room);
+    socket.join(room);
+    socket.emit("message", formatMessage("Admin", "Welcome to chat!"));
+    socket.broadcast
+      .to(room)
+      .emit(
+        "message",
+        formatMessage("Admin", `${username} has joined the chat`)
+      );
+    client.on("chatMessage", async (data) => {
+      const { message } = data;
+      const { room } = getCurrentUser(socket.id);
+      try {
+        const result = await addMessage(message, room);
+        io.to(room).emit("message", { message: result, tmpId: message._id });
+      } catch (error) {
+        client.emit("message", {
+          from: "Admin",
+          text: "problem sending message" + data,
+        });
+      }
+    });
+    client.on("disconnect", () => {
+      const user = userLeave(socket.id);
+      if (user) {
+        io.to(user.room).emit(
+          "message",
+          formatMessage("Admin", `${user.username} has left the chat`)
+        );
+      }
+    });
   });
 });
 

@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import MessageList from "../components/messagesBox/MessageList";
 import NewMessageBox from "./../components/messagesBox/NewMessageBox";
 import socket from "./../services/socket";
-import { getMessages } from "../services/chatData";
+import { getMessages } from "../services/chatApi";
 import {
   ADD_MESSAGE,
   ADD_MESSAGES,
@@ -15,7 +15,6 @@ function MessagesContainer() {
   const user = "test_add";
   useEffect(() => {
     console.log("messageContainer");
-    // const { room } = localStorage.getItem("userData");
     getMessages()
       .then((response) => addNewMessages(response.data))
       .catch((error) => console.log(error));
@@ -32,10 +31,9 @@ function MessagesContainer() {
   const { messageData, dispatchMessageData } = useContext(Context);
 
   const sendNewMessage = (message) => {
-    const room = "5ec3224716239d08946e5696";
     const uniqueId = uuidv4();
     addNewMessage({ ...message, sentInd: true, _id: uniqueId });
-    socket.emit("newMessage", { message, room, tmpId: uniqueId });
+    socket.emit("chatMessage", { message, tmpId: uniqueId });
   };
 
   const addNewMessage = (message) => {
