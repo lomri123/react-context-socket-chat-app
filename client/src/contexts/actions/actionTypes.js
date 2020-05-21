@@ -6,3 +6,5 @@ export const ADD_ROOM = "ADD_ROOM";
 export const ADD_ROOMS = "ADD_ROOMS";
 
 export const TOGGLE_ACTIVE_ROOM = "TOGGLE_ACTIVE_ROOM";
+
+export const ADD_USER = "ADD_USER";

@@ -1,20 +1,10 @@
 const router = require("express").Router();
 const {
-  fetchAllMessages,
   fetchMessagesRange,
   deleteMessage,
   updateMessage,
   addMessage,
 } = require("../models/queries/messageQueries");
-
-// router.get("/", async (req, res) => {
-//   try {
-//     const result = await fetchAllMessages(req.body.id);
-//     res.send({ result });
-//   } catch (ex) {
-//     res.status(404).send("something went wrong");
-//   }
-// });
 
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
@@ -22,7 +12,7 @@ router.get("/:id", async (req, res) => {
   try {
     const result = await fetchMessagesRange(id, start, quantity);
     res.send(result.messages);
-  } catch (ex) {
+  } catch (error) {
     res.status(404).send("the id you entered is not valid");
   }
 });
@@ -33,8 +23,8 @@ router.put("/:roomId/:messageId", async (req, res) => {
   try {
     const result = await updateMessage(roomId, messageId, message);
     res.send({ result });
-  } catch (ex) {
-    res.status(404).send(ex.errors);
+  } catch (error) {
+    res.status(404).send(error.errmsgrors);
   }
 });
 
@@ -43,7 +33,7 @@ router.delete("/:roomId/:messageId", async (req, res) => {
   try {
     const result = await deleteMessage(roomId, messageId);
     res.send({ result });
-  } catch (ex) {
+  } catch (error) {
     res.status(404).send("the id you entered is not valid");
   }
 });
@@ -52,8 +42,8 @@ router.post("/:id", async (req, res) => {
   try {
     let result = await addMessage(req.body.message, req.params.id);
     res.send(result);
-  } catch (ex) {
-    res.status(404).send(ex.errors);
+  } catch (error) {
+    res.status(404).send(error.errmsgrors);
   }
 });
 

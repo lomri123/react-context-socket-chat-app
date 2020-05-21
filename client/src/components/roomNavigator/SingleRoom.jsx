@@ -16,7 +16,7 @@ export const SingleRoom = ({
     >
       <div className="chat_people">
         <div className="chat_img">
-          <img src={roomImg} alt="sunil" />
+          <img src={roomImg} alt={roomName} />
         </div>
         <div className="chat_ib">
           <h5>{roomName}</h5>

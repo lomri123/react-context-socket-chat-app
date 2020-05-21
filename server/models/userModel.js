@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
-  nickName: { type: String, unique: true },
-  password: String
-});
+const userSchema = new mongoose.Schema(
+  {
+    nickname: { type: String, unique: true },
+  },
+  { timestamps: true }
+);
 
 const User = mongoose.model("users", userSchema);
 

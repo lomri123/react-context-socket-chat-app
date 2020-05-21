@@ -10,10 +10,12 @@ app.use(cors());
 
 const roomController = require("./controllers/roomController");
 const messageController = require("./controllers/messageController");
+const userController = require("./controllers/userController");
 const { addMessage } = require("./models/queries/messageQueries");
 
 app.use("/api/rooms", roomController);
 app.use("/api/messages", messageController);
+app.use("/api/users", userController);
 
 io.on("connection", (client) => {
   // client.emit("message", {from: "Admin", text: "you are logged into the chat"});
