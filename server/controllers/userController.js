@@ -35,7 +35,7 @@ router.delete("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    let result = await addUser(req.body.nickname);
+    let result = await addUser(req.body.username);
     res.send(result);
   } catch (error) {
     let status = 404;

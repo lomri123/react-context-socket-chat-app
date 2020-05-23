@@ -12,16 +12,6 @@ const fetchRoom = (id) => {
   return Room.findById(id);
 };
 
-const deleteRoom = (id) => {
-  return Room.findByIdAndDelete(id);
-};
-
-const updateRoom = (id, updateData) => {
-  return Room.findByIdAndUpdate(id, {
-    $set: updateData,
-  });
-};
-
 const addRoom = (RoomData) => {
   const { title, description, messages } = RoomData;
   const room = {
@@ -37,8 +27,6 @@ const addRoom = (RoomData) => {
 module.exports = {
   fetchAllRooms,
   fetchShallowRooms,
-  deleteRoom,
-  updateRoom,
   fetchRoom,
   addRoom,
 };

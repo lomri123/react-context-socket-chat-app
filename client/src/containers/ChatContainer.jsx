@@ -13,7 +13,7 @@ function ChatContainer() {
   useEffect(() => {
     const user = localStorage.getItem("userData");
     if (user) {
-      userLogin(user, false);
+      userLogin(JSON.parse(user), false);
     }
   }, []);
 
@@ -21,19 +21,22 @@ function ChatContainer() {
   const { dispatchUserData, dispatchActiveRoom } = useContext(Context);
 
   const userLogin = (user, isNew) => {
+    console.log("inside userLogin", user, isNew);
+
     socket.emit("joinRoom", { user }, (error) => {
+      console.log("inside joinRoom");
       if (error) {
+        console.log("inside error");
         alert(error);
-      } else {
-        setIsLoggedIn(true);
-        dispatchUserData({ type: ADD_USER, user });
-        if (isNew) {
-          localStorage.setItem("userData", user);
-        } else {
-          dispatchActiveRoom({ type: CHANGE_ACTIVE_ROOM, ...user.room });
-        }
       }
     });
+    setIsLoggedIn(true);
+    dispatchUserData({ type: ADD_USER, user });
+    if (isNew) {
+      localStorage.setItem("userData", JSON.stringify(user));
+    } else {
+      dispatchActiveRoom({ type: CHANGE_ACTIVE_ROOM, ...user.room });
+    }
   };
 
   return (

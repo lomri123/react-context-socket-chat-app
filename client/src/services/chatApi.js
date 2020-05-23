@@ -18,15 +18,20 @@ export const getMessages = (
   start = -10,
   quantity = 10
 ) => {
-  const options = {
-    method: "get",
-    url: `http://localhost:3008/api/messages/${room}`,
-    headers: { "Content-Type": "application/json" },
-    data: {
-      start,
-      quantity,
-    },
+  const data = {
+    room,
+    start,
+    quantity,
   };
+  const options = {
+    url: "http://localhost:3008/api/messages/range",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data,
+  };
+  console.log(options);
   return new Promise((res, rej) => {
     axios(options)
       .then(function (response) {

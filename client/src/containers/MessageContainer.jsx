@@ -19,7 +19,6 @@ function MessagesContainer() {
       .then((response) => addNewMessages(response.data))
       .catch((error) => console.log(error));
     socket.on("message", (data) => {
-      console.log("data from server", data);
       if (data.message.from === user) {
         updateMessageInd(data);
       } else {
@@ -44,7 +43,12 @@ function MessagesContainer() {
     dispatchMessageData({ type: ADD_MESSAGES, messages: [...messages] });
   };
   const updateMessageInd = (data) => {
-    dispatchMessageData({ type: UPDATE_MESSAGE_IND, data });
+    console.log("updateMessageInd", data);
+    dispatchMessageData({
+      type: UPDATE_MESSAGE_IND,
+      ...data.message,
+      tmpId: data.tmpId,
+    });
   };
 
   return (

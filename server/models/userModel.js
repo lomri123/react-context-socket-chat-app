@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    nickname: { type: String, unique: true },
+    username: { type: String, unique: true },
   },
   { timestamps: true }
 );

@@ -1,10 +1,10 @@
 import { ADD_USER } from "../actions/actionTypes";
 
 const reducer = (state, action) => {
-  const { _id, nickname } = action.user;
+  const { _id, username } = action.user;
   switch (action.type) {
     case ADD_USER:
-      return { _id, nickname };
+      return { _id, username };
     default:
       return state;
   }

@@ -18,7 +18,7 @@ Modal.setAppElement("#root");
 
 function LoginPopup({ userLogin }) {
   let subtitle;
-  const [nickname, setNickname] = React.useState("");
+  const [username, setUsername] = React.useState("");
   const [error, setError] = React.useState("");
   const [modalIsOpen, setIsOpen] = React.useState(true);
   function openModal() {
@@ -32,14 +32,14 @@ function LoginPopup({ userLogin }) {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const result = await newUser(nickname);
+      const result = await newUser(username);
       const user = { ...result.data, room: "5ec3224716239d08946e5696" };
       userLogin(user, true);
       closeModal();
     } catch (error) {
       let errorMessage = "something went wrong";
       if (error?.response?.status === 409) {
-        errorMessage = "nickname already taken";
+        errorMessage = "username already taken";
       }
       setError(errorMessage);
     }
@@ -54,10 +54,10 @@ function LoginPopup({ userLogin }) {
         style={customStyles}
         contentLabel="Example Modal"
       >
-        <div class="container h-100">
-          <div class="d-flex justify-content-center h-100">
-            <div class="user_card">
-              <div class="d-flex justify-content-center">
+        <div class="container">
+          <div class="d-flex justify-content-center mt-4">
+            <div class="user_card mt-4">
+              <div class="d-flex justify-content-center mt-4">
                 <div class="brand_logo_container">
                   <img
                     src="https://ptetutorials.com/images/user-profile.png"
@@ -66,21 +66,21 @@ function LoginPopup({ userLogin }) {
                   />
                 </div>
               </div>
-              <div class="d-flex justify-content-center form_container">
+              <div class="d-flex justify-content-center mt-4">
                 <form onSubmit={handleSubmit}>
-                  <div class="input-group mb-3">
+                  <div class="input-group">
                     <div class="input-group-append">
                       <span class="input-group-text">
-                        <i class="fas fa-user"></i>
+                        <i class="fa fa-user"></i>
                       </span>
                     </div>
                     <input
                       type="text"
-                      name="nickname"
+                      name="username"
                       class="form-control input_user"
-                      value={nickname}
+                      value={username}
                       placeholder="username"
-                      onChange={(e) => setNickname(e.target.value)}
+                      onChange={(e) => setUsername(e.target.value)}
                     />
                   </div>
                   <div class="d-flex justify-content-center mt-3 login_container">
@@ -91,7 +91,7 @@ function LoginPopup({ userLogin }) {
                 </form>
               </div>
 
-              <div class="mt-4 text-center">
+              <div class="mt-3 text-center">
                 <a href="#">Terms of Use</a>
               </div>
             </div>

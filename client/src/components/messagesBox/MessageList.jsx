@@ -9,7 +9,7 @@ function MessageList({ messageListProps }) {
     <SingleMessage
       messageFrom={message.from}
       messageText={message.text}
-      messageTime={message.time}
+      messageTime={message.createdAt}
       key={message._id}
       sentInd={message.sentInd}
     />

@@ -13,12 +13,12 @@ const reducer = (state, action) => {
     type,
     messages,
     _id,
-    tmpID,
+    tmpId,
     sentInd,
   } = action;
   switch (type) {
     case ADD_MESSAGES:
-      return [...state, ...messages];
+      return [...messages, ...state];
     case ADD_MESSAGE:
       return [
         ...state,
@@ -32,11 +32,12 @@ const reducer = (state, action) => {
         },
       ];
     case UPDATE_MESSAGE_IND:
-      const index = state.findIndex((el) => el._id === tmpID);
+      const index = state.findIndex((el) => el._id === tmpId);
+      console.log("action", action);
       const tmpState = state;
       if (index !== -1) {
         tmpState[index]._id = _id;
-        sentInd = false;
+        tmpState[index].sentInd = false;
       }
       return [...tmpState];
     default:

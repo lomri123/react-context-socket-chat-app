@@ -18,9 +18,9 @@ const updateUser = (id, updateData) => {
   });
 };
 
-const addUser = (nickname) => {
+const addUser = (username) => {
   const user = {
-    nickname,
+    username,
   };
   const tmpUserSchema = new User(user);
   const result = tmpUserSchema.save();
