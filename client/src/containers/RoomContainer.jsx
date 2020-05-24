@@ -4,7 +4,7 @@ import RoomList from "../components/roomNavigator/RoomList";
 import RoomSearch from "../components/roomNavigator/RoomSearch";
 import socket from "./../services/socket";
 import { getRooms } from "./../services/chatApi";
-import { CHANGE_ACTIVE_ROOM, ADD_ROOMS } from "../contexts/actions/actionTypes";
+import { addRooms, changeActiveRoom } from "../contexts/actions/actions";
 
 function RoomContainer() {
   useEffect(() => {
@@ -26,11 +26,12 @@ function RoomContainer() {
   const [roomFilter, setRoomFilter] = useState("");
 
   const handleRoomOnClick = (room) => {
-    dispatchActiveRoom({ type: CHANGE_ACTIVE_ROOM, selectedRoom: room });
+    const roomDispatch = changeActiveRoom(room);
+    dispatchActiveRoom(roomDispatch);
   };
   const addNewRooms = (rooms) => {
-    console.log(rooms);
-    dispatchRoomList({ type: ADD_ROOMS, rooms });
+    const roomsDispatch = addRooms(rooms);
+    dispatchRoomList(roomsDispatch);
   };
   const handleRoomSearch = (evt) => {
     const { value } = evt.target;

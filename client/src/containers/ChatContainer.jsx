@@ -4,10 +4,7 @@ import RoomContainer from "./RoomContainer";
 import MessagesContainer from "../containers/MessageContainer";
 import socket from "./../services/socket";
 import LoginPopup from "./../components/LoginPopup";
-import {
-  ADD_USER,
-  CHANGE_ACTIVE_ROOM,
-} from "./../contexts/actions/actionTypes";
+import { addUser, changeActiveRoom } from "../contexts/actions/actions";
 
 function ChatContainer() {
   useEffect(() => {
@@ -31,11 +28,13 @@ function ChatContainer() {
       }
     });
     setIsLoggedIn(true);
-    dispatchUserData({ type: ADD_USER, user });
+    const dispatchUser = addUser(user);
+    dispatchUserData(dispatchUser);
     if (isNew) {
       localStorage.setItem("userData", JSON.stringify(user));
     } else {
-      dispatchActiveRoom({ type: CHANGE_ACTIVE_ROOM, ...user.room });
+      const dispatchUser = changeActiveRoom(user.room);
+      dispatchActiveRoom(dispatchUser);
     }
   };
 

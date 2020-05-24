@@ -3,6 +3,7 @@ import {
   ADD_MESSAGES,
   UPDATE_MESSAGE_IND,
 } from "../actions/actionTypes";
+import arrageMessageList from "../../utils/arrageMessageList";
 
 const reducer = (state, action) => {
   const {
@@ -18,7 +19,8 @@ const reducer = (state, action) => {
   } = action;
   switch (type) {
     case ADD_MESSAGES:
-      return [...messages, ...state];
+      const sortedArr = arrageMessageList(messages, state);
+      return sortedArr;
     case ADD_MESSAGE:
       return [
         ...state,
@@ -33,7 +35,6 @@ const reducer = (state, action) => {
       ];
     case UPDATE_MESSAGE_IND:
       const index = state.findIndex((el) => el._id === tmpId);
-      console.log("action", action);
       const tmpState = state;
       if (index !== -1) {
         tmpState[index]._id = _id;

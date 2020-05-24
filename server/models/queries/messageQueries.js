@@ -4,7 +4,7 @@ const fetchAllMessages = (id) => {
   return Room.findById(id);
 };
 
-const fetchMessagesRange = (id, start = -10, quantity = 10) => {
+const fetchMessagesRange = (id, start = -20, quantity = 20) => {
   return Room.findById(id, { messages: { $slice: [start, quantity] } });
 };
 

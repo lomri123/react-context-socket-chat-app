@@ -5,17 +5,13 @@ import MessageList from "../components/messagesBox/MessageList";
 import NewMessageBox from "./../components/messagesBox/NewMessageBox";
 import socket from "./../services/socket";
 import { getMessages } from "../services/chatApi";
-import {
-  ADD_MESSAGE,
-  ADD_MESSAGES,
-  UPDATE_MESSAGE_IND,
-} from "./../contexts/actions/actionTypes";
+import { addMessage, addMessages } from "./../contexts/actions/actions";
 
 function MessagesContainer() {
   const user = "test_add";
   useEffect(() => {
     console.log("messageContainer");
-    getMessages()
+    getMessages(activeRoom)
       .then((response) => addNewMessages(response.data))
       .catch((error) => console.log(error));
     socket.on("message", (data) => {
@@ -27,7 +23,7 @@ function MessagesContainer() {
     });
   }, []);
 
-  const { messageData, dispatchMessageData } = useContext(Context);
+  const { messageData, dispatchMessageData, activeRoom } = useContext(Context);
 
   const sendNewMessage = (message) => {
     const uniqueId = uuidv4();
@@ -36,25 +32,28 @@ function MessagesContainer() {
   };
 
   const addNewMessage = (message) => {
-    dispatchMessageData({ type: ADD_MESSAGE, ...message });
+    const dispatchMessage = addMessage(message);
+    dispatchMessageData(dispatchMessage);
   };
 
   const addNewMessages = (messages) => {
-    dispatchMessageData({ type: ADD_MESSAGES, messages: [...messages] });
+    console.log(messages);
+    const dispatchMessages = addMessages(messages);
+    dispatchMessageData(dispatchMessages);
   };
   const updateMessageInd = (data) => {
-    console.log("updateMessageInd", data);
-    dispatchMessageData({
-      type: UPDATE_MESSAGE_IND,
-      ...data.message,
-      tmpId: data.tmpId,
-    });
+    const dispatchMessage = addMessage(data);
+    dispatchMessageData(dispatchMessage);
   };
 
   return (
     <>
       <div className="mesgs">
-        <MessageList messageListProps={messageData} />
+        <MessageList
+          messageListProps={messageData}
+          addNewMessages={addNewMessages}
+          activeRoom={activeRoom}
+        />
         <NewMessageBox sendNewMessage={sendNewMessage} />
       </div>
     </>
