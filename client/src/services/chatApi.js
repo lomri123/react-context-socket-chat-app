@@ -14,7 +14,7 @@ export const getRooms = () => {
 };
 
 export const getMessages = (
-  room = "5ec3224716239d08946e5696",
+  room = "5ecbd52181d79f398c36f23f",
   start = -20,
   quantity = 20
 ) => {

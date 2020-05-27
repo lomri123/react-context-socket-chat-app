@@ -11,17 +11,17 @@ router.post("/range", async (req, res) => {
     const result = await fetchMessagesRange(room, start, quantity);
     res.send(result.messages);
   } catch (error) {
-    res.status(404).send("the id you entered is not valid");
+    console.log(error);
+    res.status(404).send(error.errmsg);
   }
 });
 
 router.post("/:id", async (req, res) => {
   try {
     const result = await addMessage(req.body.message, req.params.id);
-    console.log("addMessage", result);
     res.send(result);
   } catch (error) {
-    res.status(404).send(error.errmsgrors);
+    res.status(404).send(error.errmsg);
   }
 });
 

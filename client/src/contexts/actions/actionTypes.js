@@ -7,4 +7,4 @@ export const ADD_ROOMS = "ADD_ROOMS";
 
 export const CHANGE_ACTIVE_ROOM = "CHANGE_ACTIVE_ROOM";
 
-export const ADD_USER = "ADD_USER";
+export const SET_USER = "SET_USER";

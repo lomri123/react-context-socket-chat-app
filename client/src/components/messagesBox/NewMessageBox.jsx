@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState } from "react";
 import { getDateTime } from "../../utils/getDateTime";
+import cleanMessage from "./../../utils/badWords";
 
 function NewMessageBox({ sendNewMessage }) {
   const [newMessageData, updateNewMessageData] = useState("");
@@ -11,19 +12,18 @@ function NewMessageBox({ sendNewMessage }) {
   const handleMessageSubmit = (e) => {
     e.preventDefault();
     if (newMessageData !== "") {
+      const cleanedMessage = cleanMessage(newMessageData);
       let tmpMessage = {
         from: "test_add",
         room: "test_room",
-        text: newMessageData,
+        text: cleanedMessage,
         createdAt: getDateTime(),
       };
       sendNewMessage(tmpMessage);
       updateNewMessageData("");
     }
   };
-  useEffect(() => {
-    console.log("NewMessageBox");
-  });
+
   return (
     <>
       <div className="type_msg">

@@ -7,8 +7,8 @@ export const Context = React.createContext();
 
 const initialMessageList = [];
 const initialRoomList = [];
-const initialActiveRoom = "5ec3224716239d08946e5696";
-const initialUser = null;
+const initialActiveRoom = "5ecbd52181d79f398c36f23f";
+const initialUser = {};
 
 function Provider(props) {
   const [messageData, dispatchMessageData] = useReducer(

@@ -1,21 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { Context } from "../contexts/DataStore";
 import RoomList from "../components/roomNavigator/RoomList";
-import RoomSearch from "../components/roomNavigator/RoomSearch";
+import RoomTopBar from "../components/roomNavigator/RoomTopBar";
 import socket from "./../services/socket";
 import { getRooms } from "./../services/chatApi";
-import { addRooms, changeActiveRoom } from "../contexts/actions/actions";
+import {
+  addRoom,
+  addRooms,
+  changeActiveRoom,
+} from "../contexts/actions/actions";
 
 function RoomContainer() {
-  useEffect(() => {
-    console.log("RoomContainer");
-    getRooms()
-      .then((response) => addNewRooms(response.data.result))
-      .catch((error) => console.log(error));
-    socket.on("room", (data) => {
-      console.log(data);
-    });
-  }, []);
   const {
     roomList,
     dispatchRoomList,
@@ -29,10 +24,17 @@ function RoomContainer() {
     const roomDispatch = changeActiveRoom(room);
     dispatchActiveRoom(roomDispatch);
   };
-  const addNewRooms = (rooms) => {
-    const roomsDispatch = addRooms(rooms);
+  const addNewRoom = (room) => {
+    const roomsDispatch = addRoom(room);
     dispatchRoomList(roomsDispatch);
   };
+  const addNewRooms = useCallback(
+    (rooms) => {
+      const roomsDispatch = addRooms(rooms);
+      dispatchRoomList(roomsDispatch);
+    },
+    [dispatchRoomList]
+  );
   const handleRoomSearch = (evt) => {
     const { value } = evt.target;
     setRoomFilter(value);
@@ -46,10 +48,23 @@ function RoomContainer() {
         );
   };
 
+  useEffect(() => {
+    console.log("RoomContainer");
+    getRooms()
+      .then((response) => addNewRooms(response.data.result))
+      .catch((error) => console.log(error));
+    socket.on("room", (data) => {
+      console.log(data);
+    });
+  }, [addNewRooms]);
+
   return (
     <>
       <div className="inbox_people">
-        <RoomSearch handleRoomSearch={handleRoomSearch} />
+        <RoomTopBar
+          handleRoomSearch={handleRoomSearch}
+          addNewRoom={addNewRoom}
+        />
         <RoomList
           chatListProps={returnRoomList()}
           handleRoomOnClick={handleRoomOnClick}

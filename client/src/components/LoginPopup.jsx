@@ -17,7 +17,6 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 function LoginPopup({ userLogin }) {
-  let subtitle;
   const [username, setUsername] = React.useState("");
   const [error, setError] = React.useState("");
   const [modalIsOpen, setIsOpen] = React.useState(true);
@@ -33,7 +32,7 @@ function LoginPopup({ userLogin }) {
     e.preventDefault();
     try {
       const result = await newUser(username);
-      const user = { ...result.data, room: "5ec3224716239d08946e5696" };
+      const user = { ...result.data, room: "5ecbd52181d79f398c36f23f" };
       userLogin(user, true);
       closeModal();
     } catch (error) {
@@ -92,7 +91,7 @@ function LoginPopup({ userLogin }) {
               </div>
 
               <div class="mt-3 text-center">
-                <a href="#">Terms of Use</a>
+                <i>Terms of Use</i>
               </div>
             </div>
           </div>

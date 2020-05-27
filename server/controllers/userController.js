@@ -20,7 +20,7 @@ router.put("/", async (req, res) => {
     const result = await updateUser(req.body.id, req.body.updateData);
     res.send({ result });
   } catch (error) {
-    res.status(404).send(error.errmsgrors);
+    res.status(404).send(error.errmsg);
   }
 });
 

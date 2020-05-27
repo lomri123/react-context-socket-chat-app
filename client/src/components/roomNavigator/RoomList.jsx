@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { SingleRoom } from "./SingleRoom";
 
 function RoomList({ chatListProps, handleRoomOnClick, activeRoomProps }) {
@@ -13,9 +13,6 @@ function RoomList({ chatListProps, handleRoomOnClick, activeRoomProps }) {
     />
   ));
 
-  useEffect(() => {
-    console.log("RoomList");
-  });
   return (
     <>
       <div className="inbox_chat">{roomList}</div>

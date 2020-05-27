@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 
-function RoomSearch({ handleRoomSearch }) {
-  useEffect(() => {
-    console.log("RoomSearch");
-  });
+function RoomTopBar({ handleRoomSearch, addNewRoom }) {
   return (
     <>
       <div className="headind_srch">
         <div className="recent_heading">
-          <h4>Rooms</h4>
+          <h4>
+            Rooms
+            <i class="fa fa-plus-circle ml-2" onClick={addNewRoom}></i>
+          </h4>
         </div>
         <div className="srch_bar">
           <div className="stylish-input-group">
@@ -30,4 +30,4 @@ function RoomSearch({ handleRoomSearch }) {
   );
 }
 
-export default RoomSearch;
+export default RoomTopBar;

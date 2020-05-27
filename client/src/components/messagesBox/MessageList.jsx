@@ -1,40 +1,32 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { SingleMessage } from "./SingleMessage";
 import LoadingAnimation from "./../LoadingAnimation";
 import { getMessages } from "../../services/chatApi";
 
-function MessageList({ messageListProps, addNewMessages, activeRoom }) {
+function MessageList({
+  messageListProps,
+  addNewMessages,
+  activeRoom,
+  messagesEndRef,
+}) {
   const itemsPerPage = 20;
-  const [hasMoreItems, sethasMoreItems] = useState(true);
-  const [records, setrecords] = useState(itemsPerPage);
-
-  useEffect(() => {
-    console.log("MessageList", messageListProps);
-  });
-  const messagesEndRef = useRef(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-  };
+  const [hasMoreItems, setHasMoreItems] = useState(true);
+  const [records, setRecords] = useState(itemsPerPage);
 
   const loadMore = async () => {
-    console.log("inside loadMore");
-    if (records === messageListProps.length) {
-      console.log("records === messageListProps.length");
-      sethasMoreItems(false);
-    } else {
-      console.log("records != messageListProps.length");
-      try {
-        const result = await getMessages(
-          activeRoom,
-          -1 * (records + itemsPerPage)
-        );
-        addNewMessages(result.data);
-        setrecords(records + itemsPerPage);
-      } catch (error) {
-        console.log(error);
+    try {
+      const result = await getMessages(activeRoom, records + itemsPerPage);
+      const { data } = result;
+      if (data.length > 0) {
+        addNewMessages(data);
+        setRecords(records + data.length);
       }
+      if (data.length < itemsPerPage) {
+        setHasMoreItems(false);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

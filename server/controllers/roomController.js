@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
     let result = await addRoom(req.body.roomData);
     res.send(result);
   } catch (error) {
-    res.status(404).send(error.errmsgrors);
+    res.status(404).send(error.errmsg);
   }
 });
 

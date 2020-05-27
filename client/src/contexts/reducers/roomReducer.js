@@ -4,18 +4,15 @@ const reducer = (state, action) => {
   const { roomName, roomDesc, roomImg, type, rooms } = action;
   switch (type) {
     case ADD_ROOMS:
-      return [
-        ...state,
-        ...rooms
-      ]; 
+      return [...state, ...rooms];
     case ADD_ROOM:
       return [
-        ...state,
         {
           roomName,
           roomDesc,
-          roomImg
-        }
+          roomImg,
+        },
+        ...state,
       ];
     default:
       return state;

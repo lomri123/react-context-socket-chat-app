@@ -1,14 +1,15 @@
 import {
-  ADD_USER,
+  SET_USER,
   CHANGE_ACTIVE_ROOM,
   ADD_MESSAGE,
   ADD_MESSAGES,
   UPDATE_MESSAGE_IND,
+  ADD_ROOM,
   ADD_ROOMS,
 } from "./actionTypes";
 
-export const addUser = (user) => {
-  return { type: ADD_USER, user };
+export const setUser = (user) => {
+  return { type: SET_USER, user };
 };
 
 export const changeActiveRoom = (room) => {
@@ -31,6 +32,9 @@ export const updateMessageInd = (data) => {
   };
 };
 
+export const addRoom = (room) => {
+  return { type: ADD_ROOM, room };
+};
 export const addRooms = (rooms) => {
   return { type: ADD_ROOMS, rooms };
 };
