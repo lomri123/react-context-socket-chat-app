@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import { newUser } from "./../services/userApi";
+import cleanText from "./../utils/badWords";
 
 const customStyles = {
   content: {
@@ -30,17 +31,22 @@ function LoginPopup({ userLogin }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    try {
-      const result = await newUser(username);
-      const user = { ...result.data, room: "5ecbd52181d79f398c36f23f" };
-      userLogin(user, true);
-      closeModal();
-    } catch (error) {
-      let errorMessage = "something went wrong";
-      if (error?.response?.status === 409) {
-        errorMessage = "username already taken";
+    const cleanUsername = cleanText(username);
+    if (username === cleanUsername) {
+      try {
+        const result = await newUser(username);
+        const user = { ...result.data, room: "5ecee47b336c0d2adcb25a97" };
+        userLogin(user, true);
+        closeModal();
+      } catch (error) {
+        let errorMessage = "something went wrong";
+        if (error?.response?.status === 409) {
+          errorMessage = "username already taken";
+        }
+        setError(errorMessage);
       }
-      setError(errorMessage);
+    } else {
+      setError("Your parents are mean :(");
     }
   }
 
@@ -51,7 +57,7 @@ function LoginPopup({ userLogin }) {
         onRequestClose={closeModal}
         shouldCloseOnOverlayClick={false}
         style={customStyles}
-        contentLabel="Example Modal"
+        contentLabel="Login Modal"
       >
         <div class="container">
           <div class="d-flex justify-content-center mt-4">
@@ -67,7 +73,7 @@ function LoginPopup({ userLogin }) {
               </div>
               <div class="d-flex justify-content-center mt-4">
                 <form onSubmit={handleSubmit}>
-                  <div class="input-group">
+                  <div class="input-group ">
                     <div class="input-group-append">
                       <span class="input-group-text">
                         <i class="fa fa-user"></i>
@@ -82,7 +88,10 @@ function LoginPopup({ userLogin }) {
                       onChange={(e) => setUsername(e.target.value)}
                     />
                   </div>
-                  <div class="d-flex justify-content-center mt-3 login_container">
+                  <div className="mt-0 p-0 text-center text-danger">
+                    {error}&nbsp;
+                  </div>
+                  <div class="d-flex flex-column justify-content-center mt-2 login_container">
                     <button type="submit" name="button" class="btn login_btn">
                       Login
                     </button>
@@ -91,7 +100,7 @@ function LoginPopup({ userLogin }) {
               </div>
 
               <div class="mt-3 text-center">
-                <i>Terms of Use</i>
+                <a>Terms of Use</a>
               </div>
             </div>
           </div>

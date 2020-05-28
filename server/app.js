@@ -49,6 +49,7 @@ io.on("connection", (client) => {
           tmpId,
         });
       } catch (error) {
+        console.log("addMessage error", error);
         client.emit("message", {
           from: "Admin",
           text: "problem sending message" + data,

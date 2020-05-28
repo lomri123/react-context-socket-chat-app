@@ -6,10 +6,13 @@ const {
 
 router.post("/range", async (req, res) => {
   const { start, quantity, room } = req.body;
-  console.log("fetch", req.body);
   try {
     const result = await fetchMessagesRange(room, start, quantity);
-    res.send(result.messages);
+    let messages = [];
+    if (result && result.messages !== undefined) {
+      messages = result.messages;
+    }
+    res.send(messages);
   } catch (error) {
     console.log(error);
     res.status(404).send(error.errmsg);

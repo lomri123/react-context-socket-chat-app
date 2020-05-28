@@ -1,7 +1,6 @@
 const axios = require("axios");
 
 export const newUser = (username) => {
-  console.log(username);
   return new Promise((res, rej) => {
     axios
       .post("http://localhost:3008/api/users/", { username })

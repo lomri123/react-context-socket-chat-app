@@ -40,7 +40,6 @@ function RoomContainer() {
     setRoomFilter(value);
   };
   const returnRoomList = (evt) => {
-    console.log(roomList);
     return roomFilter === ""
       ? roomList
       : roomList.filter(
@@ -56,7 +55,7 @@ function RoomContainer() {
     socket.on("room", (data) => {
       console.log(data);
     });
-  }, [addNewRooms]);
+  }, []);
 
   return (
     <>

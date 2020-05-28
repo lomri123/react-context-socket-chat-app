@@ -1,8 +1,8 @@
 var Filter = require("bad-words");
 var customFilter = new Filter();
 
-const cleanMessage = (sentence) => {
+const cleanText = (sentence) => {
   return customFilter.clean(sentence);
 };
 
-export default cleanMessage;
+export default cleanText;

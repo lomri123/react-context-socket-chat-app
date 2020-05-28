@@ -24,7 +24,6 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  console.log("called add room", req.body);
   try {
     let result = await addRoom(req.body.roomData);
     res.send(result);

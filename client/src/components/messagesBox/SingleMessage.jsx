@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 
 export const SingleMessage = ({
   messageFrom,
@@ -18,8 +19,10 @@ export const SingleMessage = ({
       )}
       <div className={messageFrom === "omri1" ? "sent_msg" : "received_msg"}>
         <div className="received_withd_msg">
-          <p style={{ color: sentInd ? "red" : "black" }}>{messageText}</p>
-          <span className="time_date">{messageTime}</span>
+          <p className={sentInd ? "text-secondary" : ""}>{messageText}</p>
+          <span className="time_date">
+            {moment(messageTime).format("MMMM Do YYYY, h:mm:ss a")}
+          </span>
         </div>
       </div>
     </div>

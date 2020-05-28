@@ -1,22 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { SingleMessage } from "./SingleMessage";
 import LoadingAnimation from "./../LoadingAnimation";
 import { getMessages } from "../../services/chatApi";
 
-function MessageList({
-  messageListProps,
-  addNewMessages,
-  activeRoom,
-  messagesEndRef,
-}) {
+function MessageList({ messageListProps, addNewMessages, activeRoom }) {
   const itemsPerPage = 20;
-  const [hasMoreItems, setHasMoreItems] = useState(true);
+  const [hasMoreItems, setHasMoreItems] = useState(false);
   const [records, setRecords] = useState(itemsPerPage);
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = (behavior) => {
+    messagesEndRef.current.scrollIntoView();
+  };
 
   const loadMore = async () => {
     try {
-      const result = await getMessages(activeRoom, records + itemsPerPage);
+      const result = await getMessages(
+        activeRoom,
+        -1 * (records + itemsPerPage)
+      );
       const { data } = result;
       if (data.length > 0) {
         addNewMessages(data);
@@ -39,6 +42,13 @@ function MessageList({
       sentInd={message.sentInd}
     />
   ));
+
+  useEffect(() => {
+    setTimeout(() => {
+      // scrollToBottom();
+      setHasMoreItems(true);
+    }, 250);
+  }, []);
   return (
     <>
       <div className="msg_history">
@@ -50,8 +60,8 @@ function MessageList({
           isReverse={true}
         >
           {messageList}
+          <div ref={messagesEndRef} />
         </InfiniteScroll>
-        <div ref={messagesEndRef} />
       </div>
     </>
   );

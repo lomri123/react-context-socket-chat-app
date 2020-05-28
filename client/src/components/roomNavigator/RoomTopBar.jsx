@@ -7,7 +7,7 @@ function RoomTopBar({ handleRoomSearch, addNewRoom }) {
         <div className="recent_heading">
           <h4>
             Rooms
-            <i class="fa fa-plus-circle ml-2" onClick={addNewRoom}></i>
+            <i className="fa fa-plus-circle ml-2" onClick={addNewRoom}></i>
           </h4>
         </div>
         <div className="srch_bar">

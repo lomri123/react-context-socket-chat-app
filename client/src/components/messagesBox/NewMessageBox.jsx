@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { getDateTime } from "../../utils/getDateTime";
-import cleanMessage from "./../../utils/badWords";
+import React, { useState, useRef, useEffect } from "react";
+import cleanText from "./../../utils/badWords";
 
 function NewMessageBox({ sendNewMessage }) {
   const [newMessageData, updateNewMessageData] = useState("");
@@ -12,17 +11,23 @@ function NewMessageBox({ sendNewMessage }) {
   const handleMessageSubmit = (e) => {
     e.preventDefault();
     if (newMessageData !== "") {
-      const cleanedMessage = cleanMessage(newMessageData);
+      const cleanMessage = cleanText(newMessageData);
+      const currentDate = new Date();
       let tmpMessage = {
         from: "test_add",
         room: "test_room",
-        text: cleanedMessage,
-        createdAt: getDateTime(),
+        text: cleanMessage,
+        createdAt: currentDate,
       };
       sendNewMessage(tmpMessage);
       updateNewMessageData("");
     }
   };
+
+  const messageBoxRef = useRef(null);
+  useEffect(() => {
+    messageBoxRef.current.focus();
+  }, []);
 
   return (
     <>
@@ -34,6 +39,7 @@ function NewMessageBox({ sendNewMessage }) {
             placeholder="Type a message"
             value={newMessageData}
             onChange={(e) => handleMessageFormChange(e)}
+            ref={messageBoxRef}
           />
           <button className="msg_send_btn" type="submit">
             <i className="fa fa-paper-plane-o" aria-hidden="true"></i>

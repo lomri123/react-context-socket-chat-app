@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useCallback } from "react";
+import React, { useContext, useEffect, useCallback } from "react";
 import { Context } from "../contexts/DataStore";
 import { v4 as uuidv4 } from "uuid";
 import MessageList from "../components/messagesBox/MessageList";
@@ -27,7 +27,6 @@ function MessagesContainer() {
     (message) => {
       const dispatchMessage = addMessage(message);
       dispatchMessageData(dispatchMessage);
-      scrollToBottom();
     },
     [dispatchMessageData]
   );
@@ -37,7 +36,6 @@ function MessagesContainer() {
       if (messages.length > 0) {
         const dispatchMessages = addMessages(messages);
         dispatchMessageData(dispatchMessages);
-        scrollToBottom();
       }
     },
     [dispatchMessageData]
@@ -61,18 +59,18 @@ function MessagesContainer() {
     [addNewMessage, updateNewMessageInd, userData]
   );
 
-  const messagesEndRef = useRef(null);
-
-  const scrollToBottom = (behavior) => {
-    messagesEndRef.current.scrollIntoView();
-  };
-
   useEffect(() => {
-    getMessages(activeRoom)
-      .then((response) => addNewMessages(response.data))
-      .catch((error) => console.log(error));
+    const fetchData = async () => {
+      try {
+        const { data } = await getMessages(activeRoom);
+        addNewMessages(data);
+      } catch (error) {
+        console.log("getMessages error", error);
+      }
+    };
+    fetchData();
     socket.on("message", (data) => handleIncomingMessage(data));
-  }, [activeRoom, addNewMessages, handleIncomingMessage]);
+  }, []);
 
   return (
     <>
@@ -81,7 +79,6 @@ function MessagesContainer() {
           messageListProps={messageData}
           addNewMessages={addNewMessages}
           activeRoom={activeRoom}
-          messagesEndRef={messagesEndRef}
         />
         <NewMessageBox sendNewMessage={sendNewMessage} />
       </div>

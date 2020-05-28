@@ -13,9 +13,8 @@ function ChatContainer() {
   const userLogin = useCallback(
     (user, isNew) => {
       socket.emit("joinRoom", { user }, (error) => {
-        console.log("inside joinRoom", user);
         if (error) {
-          console.log("inside error");
+          console.log("userLogin error", error);
           alert(error);
         }
       });
@@ -37,7 +36,7 @@ function ChatContainer() {
     if (user) {
       userLogin(JSON.parse(user), false);
     }
-  }, [userLogin]);
+  }, []);
 
   return (
     <>

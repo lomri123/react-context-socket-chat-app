@@ -1,5 +1,6 @@
 const Room = require("../roomModel");
 const mongoose = require("mongoose");
+
 const fetchAllMessages = (id) => {
   return Room.findById(id);
 };

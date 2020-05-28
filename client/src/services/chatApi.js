@@ -14,7 +14,7 @@ export const getRooms = () => {
 };
 
 export const getMessages = (
-  room = "5ecbd52181d79f398c36f23f",
+  room = "5ecee47b336c0d2adcb25a97",
   start = -20,
   quantity = 20
 ) => {
@@ -31,7 +31,6 @@ export const getMessages = (
     },
     data,
   };
-  console.log(options);
   return new Promise((res, rej) => {
     axios(options)
       .then(function (response) {
