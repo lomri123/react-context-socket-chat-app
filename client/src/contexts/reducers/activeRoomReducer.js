@@ -1,10 +1,10 @@
 import { CHANGE_ACTIVE_ROOM } from "../actions/actionTypes";
 
 const reducer = (state, action) => {
-  const { selectedRoom } = action;
-  switch (action.type) {
+  const { type, room } = action;
+  switch (type) {
     case CHANGE_ACTIVE_ROOM:
-      return selectedRoom;
+      return room;
     default:
       return state;
   }

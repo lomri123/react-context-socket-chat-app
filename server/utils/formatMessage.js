@@ -1,4 +1,3 @@
-const moment = require("moment");
 const { v4: uuidv4 } = require("uuid");
 
 function formatMessage(from, text) {
@@ -6,7 +5,7 @@ function formatMessage(from, text) {
     message: {
       from,
       text,
-      createdAt: moment().format("h:mm a"),
+      createdAt: new Date(),
       _id: uuidv4(),
     },
   };

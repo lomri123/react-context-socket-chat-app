@@ -9,6 +9,7 @@ import {
   addMessage,
   addMessages,
   updateMessageInd,
+  setInitialMessages,
 } from "./../contexts/actions/actions";
 
 function MessagesContainer() {
@@ -20,57 +21,57 @@ function MessagesContainer() {
     const uniqueId = uuidv4();
     const myMessage = { ...message, from: userData.username, room: activeRoom };
     addNewMessage({ ...myMessage, sentInd: true, _id: uniqueId });
-    socket.emit("chatMessage", { message, tmpId: uniqueId });
+    socket.emit("chatMessage", { message: myMessage, tmpId: uniqueId });
   };
 
-  const addNewMessage = useCallback(
-    (message) => {
-      const dispatchMessage = addMessage(message);
-      dispatchMessageData(dispatchMessage);
-    },
-    [dispatchMessageData]
-  );
+  const addNewMessage = useCallback((message) => {
+    const dispatchMessage = addMessage(message);
+    dispatchMessageData(dispatchMessage);
+  }, []);
 
-  const addNewMessages = useCallback(
-    (messages) => {
-      if (messages.length > 0) {
-        const dispatchMessages = addMessages(messages);
-        dispatchMessageData(dispatchMessages);
-      }
-    },
-    [dispatchMessageData]
-  );
-  const updateNewMessageInd = useCallback(
-    (data) => {
-      const dispatchMessage = updateMessageInd(data);
-      dispatchMessageData(dispatchMessage);
-    },
-    [dispatchMessageData]
-  );
-
-  const handleIncomingMessage = useCallback(
-    (data) => {
-      if (data.message.from === userData?.username) {
-        updateNewMessageInd(data);
+  const addNewMessages = useCallback((messages, isInitial) => {
+    if (messages.length > 0) {
+      let dispatchMessages = {};
+      if (isInitial) {
+        dispatchMessages = setInitialMessages(messages);
       } else {
-        addNewMessage(data.message);
+        dispatchMessages = addMessages(messages);
       }
-    },
-    [addNewMessage, updateNewMessageInd, userData]
-  );
+      dispatchMessageData(dispatchMessages);
+    }
+  }, []);
+
+  const updateNewMessageInd = useCallback((data) => {
+    const dispatchMessage = updateMessageInd(data);
+    dispatchMessageData(dispatchMessage);
+  }, []);
+
+  const handleIncomingMessage = useCallback((data, user) => {
+    if (data.message.from === user?.username) {
+      updateNewMessageInd(data);
+    } else {
+      addNewMessage(data.message);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await getMessages(activeRoom);
-        addNewMessages(data);
+        addNewMessages(data, true);
       } catch (error) {
         console.log("getMessages error", error);
       }
     };
     fetchData();
-    socket.on("message", (data) => handleIncomingMessage(data));
-  }, []);
+  }, [activeRoom]);
+
+  useEffect(() => {
+    socket.on("message", (data) => handleIncomingMessage(data, userData));
+    return () => {
+      socket.off("message", console.log("socket off"));
+    };
+  }, [userData]);
 
   return (
     <>
@@ -79,6 +80,7 @@ function MessagesContainer() {
           messageListProps={messageData}
           addNewMessages={addNewMessages}
           activeRoom={activeRoom}
+          userData={userData}
         />
         <NewMessageBox sendNewMessage={sendNewMessage} />
       </div>

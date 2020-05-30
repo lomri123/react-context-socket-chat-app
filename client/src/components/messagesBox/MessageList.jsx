@@ -1,10 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroller";
-import { SingleMessage } from "./SingleMessage";
+import SingleMessage from "./SingleMessage";
 import LoadingAnimation from "./../LoadingAnimation";
 import { getMessages } from "../../services/chatApi";
 
-function MessageList({ messageListProps, addNewMessages, activeRoom }) {
+function MessageList({
+  messageListProps,
+  addNewMessages,
+  activeRoom,
+  userData,
+}) {
   const itemsPerPage = 20;
   const [hasMoreItems, setHasMoreItems] = useState(false);
   const [records, setRecords] = useState(itemsPerPage);
@@ -40,6 +45,7 @@ function MessageList({ messageListProps, addNewMessages, activeRoom }) {
       messageTime={message.createdAt}
       key={message._id}
       sentInd={message.sentInd}
+      currentUser={userData.username}
     />
   ));
 

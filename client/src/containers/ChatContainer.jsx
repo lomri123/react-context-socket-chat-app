@@ -2,34 +2,30 @@ import React, { useEffect, useState, useContext, useCallback } from "react";
 import { Context } from "../contexts/DataStore";
 import RoomContainer from "./RoomContainer";
 import MessagesContainer from "../containers/MessageContainer";
-import socket from "./../services/socket";
-import LoginPopup from "./../components/LoginPopup";
+import socket from "../services/socket";
+import LoginPopup from "../components/user/LoginPopup";
 import { setUser, changeActiveRoom } from "../contexts/actions/actions";
 
 function ChatContainer() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { dispatchUserData, dispatchActiveRoom } = useContext(Context);
 
-  const userLogin = useCallback(
-    (user, isNew) => {
-      socket.emit("joinRoom", { user }, (error) => {
-        if (error) {
-          console.log("userLogin error", error);
-          alert(error);
-        }
-      });
-      setIsLoggedIn(true);
-      const dispatchUser = setUser(user);
-      dispatchUserData(dispatchUser);
-      if (isNew) {
-        localStorage.setItem("userData", JSON.stringify(user));
-      } else {
-        const changedRoom = changeActiveRoom(user.room);
-        dispatchActiveRoom(changedRoom);
+  const userLogin = useCallback((user, isNew) => {
+    socket.emit("joinRoom", { user }, (error) => {
+      if (error) {
+        console.log("userLogin error", error);
+        alert(error);
       }
-    },
-    [dispatchActiveRoom, dispatchUserData]
-  );
+    });
+    setIsLoggedIn(true);
+    const dispatchUser = setUser(user);
+    dispatchUserData(dispatchUser);
+    if (isNew) {
+      localStorage.setItem("userData", JSON.stringify(user));
+    }
+    const changedRoom = changeActiveRoom(user.room);
+    dispatchActiveRoom(changedRoom);
+  }, []);
 
   useEffect(() => {
     const user = localStorage.getItem("userData");

@@ -1,15 +1,23 @@
 const axios = require("axios");
 
-export const newUser = (username) => {
+export const registerUser = (username, image) => {
+  const formData = new FormData();
+  formData.append("username", `${username}`);
+  if (image !== undefined) {
+    formData.append("img", image);
+  }
+
   return new Promise((res, rej) => {
-    axios
-      .post("http://localhost:3008/api/users/", { username })
-      .then(function (response) {
-        res(response);
-      })
-      .catch(function (error) {
-        rej(error);
-      });
+    axios({
+      method: "post",
+      url: "http://localhost:3008/api/users/",
+      data: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+      .then((response) => res(response))
+      .catch((error) => rej(error));
   });
 };
 

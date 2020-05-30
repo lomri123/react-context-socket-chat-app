@@ -5,6 +5,9 @@ const {
   fetchUser,
   addUser,
 } = require("../models/queries/userQueries");
+const uploadToCloudinary = require("../services/cloudinary");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 router.get("/:id", async (req, res) => {
   try {
@@ -33,9 +36,17 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", upload.single("img"), async (req, res) => {
+  const { username } = req.body;
+  let myFilePath = false;
+  if (req.file !== undefined) {
+    myFilePath = req.file.path;
+  }
   try {
-    let result = await addUser(req.body.username);
+    let result = await addUser(username);
+    if (myFilePath) {
+      uploadToCloudinary(myFilePath, username);
+    }
     res.send(result);
   } catch (error) {
     let status = 404;

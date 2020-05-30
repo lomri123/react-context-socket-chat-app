@@ -28,13 +28,10 @@ function RoomContainer() {
     const roomsDispatch = addRoom(room);
     dispatchRoomList(roomsDispatch);
   };
-  const addNewRooms = useCallback(
-    (rooms) => {
-      const roomsDispatch = addRooms(rooms);
-      dispatchRoomList(roomsDispatch);
-    },
-    [dispatchRoomList]
-  );
+  const addNewRooms = useCallback((rooms) => {
+    const roomsDispatch = addRooms(rooms);
+    dispatchRoomList(roomsDispatch);
+  }, []);
   const handleRoomSearch = (evt) => {
     const { value } = evt.target;
     setRoomFilter(value);
@@ -48,7 +45,6 @@ function RoomContainer() {
   };
 
   useEffect(() => {
-    console.log("RoomContainer");
     getRooms()
       .then((response) => addNewRooms(response.data.result))
       .catch((error) => console.log(error));

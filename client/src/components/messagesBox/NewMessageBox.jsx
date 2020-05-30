@@ -14,8 +14,6 @@ function NewMessageBox({ sendNewMessage }) {
       const cleanMessage = cleanText(newMessageData);
       const currentDate = new Date();
       let tmpMessage = {
-        from: "test_add",
-        room: "test_room",
         text: cleanMessage,
         createdAt: currentDate,
       };

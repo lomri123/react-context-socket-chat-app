@@ -2,6 +2,7 @@ import {
   ADD_MESSAGE,
   ADD_MESSAGES,
   UPDATE_MESSAGE_IND,
+  SET_INITIAL_MESSAGES,
 } from "../actions/actionTypes";
 import arrageMessageList from "../../utils/arrageMessageList";
 
@@ -21,6 +22,8 @@ const reducer = (state, action) => {
     case ADD_MESSAGES:
       const sortedArr = arrageMessageList(messages, state);
       return sortedArr;
+    case SET_INITIAL_MESSAGES:
+      return messages;
     case ADD_MESSAGE:
       return [
         ...state,

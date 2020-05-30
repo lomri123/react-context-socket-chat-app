@@ -21,7 +21,7 @@ const fetchMessagesRange = (id, start = -20, quantity = 20) => {
                 {
                   $cond: {
                     if: {
-                      $gte: [{ $size: "$messages" }, -1 * (start + quantity)],
+                      $gte: [{ $size: "$messages" }, -1 * start],
                     },
                     then: quantity,
                     else: {

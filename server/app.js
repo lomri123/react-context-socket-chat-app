@@ -40,7 +40,6 @@ io.on("connection", (client) => {
     client.on("chatMessage", async (data) => {
       const { message, tmpId } = data;
       const { room } = getCurrentUser(client.id);
-      console.log("chatMessage", data);
       try {
         const result = await addMessage(message, room);
         const newMessage = result.messages[0];

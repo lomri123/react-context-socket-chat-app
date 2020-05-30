@@ -6,6 +6,7 @@ import {
   UPDATE_MESSAGE_IND,
   ADD_ROOM,
   ADD_ROOMS,
+  SET_INITIAL_MESSAGES,
 } from "./actionTypes";
 
 export const setUser = (user) => {
@@ -13,7 +14,7 @@ export const setUser = (user) => {
 };
 
 export const changeActiveRoom = (room) => {
-  return { type: CHANGE_ACTIVE_ROOM, ...room };
+  return { type: CHANGE_ACTIVE_ROOM, room };
 };
 
 export const addMessage = (message) => {
@@ -21,7 +22,11 @@ export const addMessage = (message) => {
 };
 
 export const addMessages = (messages) => {
-  return { type: ADD_MESSAGES, messages: [...messages] };
+  return { type: ADD_MESSAGES, messages };
+};
+
+export const setInitialMessages = (messages) => {
+  return { type: SET_INITIAL_MESSAGES, messages };
 };
 
 export const updateMessageInd = (data) => {
