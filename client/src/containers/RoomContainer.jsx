@@ -26,6 +26,12 @@ function RoomContainer() {
   const handleRoomOnClick = (room) => {
     const roomDispatch = changeActiveRoom(room);
     dispatchActiveRoom(roomDispatch);
+    const user = localStorage.getItem("userData");
+    if (user) {
+      const tmpUser = JSON.parse(user);
+      tmpUser.room = room;
+      localStorage.setItem("userData", JSON.stringify(tmpUser));
+    }
   };
   const addNewRoom = (room) => {
     const roomsDispatch = addRoom(room);
@@ -42,8 +48,8 @@ function RoomContainer() {
   const returnRoomList = (evt) => {
     return roomFilter === ""
       ? roomList
-      : roomList.filter(
-          (room) => room.title.toLowerCase() === roomFilter.toLowerCase()
+      : roomList.filter((room) =>
+          room.title.toLowerCase().includes(roomFilter.toLowerCase())
         );
   };
 
@@ -63,7 +69,7 @@ function RoomContainer() {
         <RoomList
           chatListProps={returnRoomList()}
           handleRoomOnClick={handleRoomOnClick}
-          activeRoomProps={activeRoom}
+          activeRoom={activeRoom}
         />
       </div>
       <RoomPopup modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
@@ -71,4 +77,3 @@ function RoomContainer() {
   );
 }
 export default RoomContainer;
-// export const MemoRoomContainer = React.memo(RoomContainer);

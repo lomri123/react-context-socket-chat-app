@@ -1,15 +1,15 @@
 import React from "react";
 import SingleRoom from "./SingleRoom";
 
-function RoomList({ chatListProps, handleRoomOnClick, activeRoomProps }) {
+function RoomList({ chatListProps, handleRoomOnClick, activeRoom }) {
   const roomList = chatListProps.map((room) => (
     <SingleRoom
       roomName={room.title}
       roomDesc={room.description}
-      roomImg={room.roomImg}
       handleRoomOnClick={handleRoomOnClick}
-      activeRoomProps={activeRoomProps}
+      activeRoom={activeRoom}
       key={room._id}
+      roomId={room._id}
     />
   ));
 

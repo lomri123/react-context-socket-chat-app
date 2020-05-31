@@ -8,7 +8,7 @@ function RoomTopBar({ handleRoomSearch, setIsOpen }) {
           <h4>
             Rooms
             <i
-              className="fa fa-plus-circle ml-2"
+              className="fa fa-plus-circle ml-2 add-room-button"
               onClick={() => setIsOpen(true)}
             ></i>
           </h4>

@@ -40,7 +40,7 @@ function LoginPopup({ userLogin }) {
     if (!userValidate.error) {
       try {
         const result = await registerUser(username, image);
-        const user = { ...result.data, room: "5ecee47b336c0d2adcb25a97" };
+        const user = { ...result.data, room: "5ed30a088b7dc2416c932c3b" };
         userLogin(user, true);
         closeModal();
       } catch (error) {

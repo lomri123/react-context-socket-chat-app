@@ -11,8 +11,8 @@ function MessageList({
   userData,
 }) {
   const itemsPerPage = 20;
-  const [hasMoreItems, setHasMoreItems] = useState(false);
-  const [records, setRecords] = useState(itemsPerPage);
+  const [hasMoreItems, setHasMoreItems] = useState(true);
+  const [records, setRecords] = useState(0);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = (behavior) => {
@@ -27,7 +27,12 @@ function MessageList({
       );
       const { data } = result;
       if (data.length > 0) {
-        addNewMessages(data);
+        if (records === 0) {
+          addNewMessages(data, true);
+        } else {
+          addNewMessages(data);
+        }
+        scrollToBottom();
         setRecords(records + data.length);
       }
       if (data.length < itemsPerPage) {
@@ -49,17 +54,12 @@ function MessageList({
     />
   ));
 
-  useEffect(() => {
-    setTimeout(() => {
-      // scrollToBottom();
-      setHasMoreItems(true);
-    }, 250);
-  }, []);
   return (
     <>
       <div className="msg_history">
         <InfiniteScroll
           loadMore={loadMore}
+          initialLoad={true}
           hasMore={hasMoreItems}
           loader={<LoadingAnimation />}
           useWindow={false}

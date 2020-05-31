@@ -29,7 +29,7 @@ function MessagesContainer() {
     dispatchMessageData(dispatchMessage);
   }, []);
 
-  const addNewMessages = useCallback((messages, isInitial) => {
+  const addNewMessages = (messages, isInitial) => {
     if (messages.length > 0) {
       let dispatchMessages = {};
       if (isInitial) {
@@ -39,7 +39,7 @@ function MessagesContainer() {
       }
       dispatchMessageData(dispatchMessages);
     }
-  }, []);
+  };
 
   const updateNewMessageInd = useCallback((data) => {
     const dispatchMessage = updateMessageInd(data);
@@ -53,18 +53,6 @@ function MessagesContainer() {
       addNewMessage(data.message);
     }
   }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await getMessages(activeRoom);
-        addNewMessages(data, true);
-      } catch (error) {
-        console.log("getMessages error", error);
-      }
-    };
-    fetchData();
-  }, [activeRoom]);
 
   useEffect(() => {
     socket.on("message", (data) => handleIncomingMessage(data, userData));

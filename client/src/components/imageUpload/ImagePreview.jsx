@@ -1,10 +1,9 @@
 import React from "react";
-import blankProfileImg from "../../assets/user-profile.png";
+import blankProfileImg from "../../assets/user-avatar.png";
 
 function ImagePreview({ setIsEditing, setImage, image }) {
   const onFileUpload = (e) => {
     if (e?.target?.files) {
-      console.log("inside onFileUpload");
       const file = e.target.files[0];
       setImage(file);
       setIsEditing(true);

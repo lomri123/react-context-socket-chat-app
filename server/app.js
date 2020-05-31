@@ -13,12 +13,7 @@ const messageController = require("./controllers/messageController");
 const userController = require("./controllers/userController");
 const { addMessage } = require("./models/queries/messageQueries");
 const formatMessage = require("./utils/formatMessage");
-const {
-  userJoin,
-  getCurrentUser,
-  userLeave,
-  getRoomUsers,
-} = require("./databases/localDB");
+const { userJoin, getCurrentUser, userLeave } = require("./databases/localDB");
 
 app.use("/api/rooms", roomController);
 app.use("/api/messages", messageController);

@@ -7,7 +7,7 @@ export const Context = React.createContext();
 
 const initialMessageList = [];
 const initialRoomList = [];
-const initialActiveRoom = "5ecee47b336c0d2adcb25a97";
+const initialActiveRoom = "5ed30a088b7dc2416c932c3b";
 const initialUser = {};
 
 function Provider(props) {
