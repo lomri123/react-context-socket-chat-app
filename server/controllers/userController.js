@@ -45,7 +45,7 @@ router.post("/", upload.single("img"), async (req, res) => {
   try {
     let result = await addUser(username);
     if (myFilePath) {
-      uploadToCloudinary(myFilePath, username);
+      uploadToCloudinary(myFilePath, "users", username);
     }
     res.send(result);
   } catch (error) {

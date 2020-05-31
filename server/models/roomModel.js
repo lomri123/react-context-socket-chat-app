@@ -4,6 +4,8 @@ const roomSchema = new mongoose.Schema(
   {
     title: { type: String, unique: true },
     description: { type: String },
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+
     messages: [
       {
         text: String,
@@ -15,6 +17,6 @@ const roomSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Room = mongoose.model("rooms", roomSchema);
+const Room = mongoose.model("Room", roomSchema);
 
 module.exports = Room;

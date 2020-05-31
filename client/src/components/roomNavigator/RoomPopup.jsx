@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import { registerUser } from "../../services/userApi";
+import { addRoom } from "../../services/roomApi";
+import cleanText from "../../utils/badWords";
 import ImagePreview from "../imageUpload/ImagePreview";
 import ImageEdit from "../imageUpload/ImageEdit";
-import { validateUser } from "./../../utils/validate";
 
 const customStyles = {
   content: {
@@ -19,10 +19,9 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-function LoginPopup({ userLogin }) {
-  const [username, setUsername] = React.useState("");
+function RoomPopup({ modalIsOpen, setIsOpen }) {
+  const [roomName, setRoomname] = React.useState("");
   const [error, setError] = React.useState("");
-  const [modalIsOpen, setIsOpen] = React.useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [image, setImage] = useState(null);
 
@@ -36,22 +35,25 @@ function LoginPopup({ userLogin }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const userValidate = validateUser(username);
-    if (!userValidate.error) {
+    const cleanRoomName = cleanText(roomName);
+    if (roomName === cleanRoomName) {
+      const roomData = {
+        title: roomName,
+        description: "description",
+      };
       try {
-        const result = await registerUser(username, image);
-        const user = { ...result.data, room: "5ecee47b336c0d2adcb25a97" };
-        userLogin(user, true);
+        const result = await addRoom(roomData, image);
+        // roomLogin(roomName, true);
         closeModal();
       } catch (error) {
         let errorMessage = "something went wrong";
         if (error?.response?.status === 409) {
-          errorMessage = "username already taken";
+          errorMessage = "room name already taken";
         }
         setError(errorMessage);
       }
     } else {
-      setError(userValidate.error);
+      setError("only clean names please");
     }
   }
 
@@ -60,9 +62,8 @@ function LoginPopup({ userLogin }) {
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        shouldCloseOnOverlayClick={false}
         style={customStyles}
-        contentLabel="Login Modal"
+        contentLabel="Room Modal"
       >
         <div className="container">
           {isEditing ? (
@@ -74,7 +75,7 @@ function LoginPopup({ userLogin }) {
             />
           ) : (
             <div className="d-flex justify-content-center mt-4">
-              <div className="user_card mt-4">
+              <div className="room_card mt-4">
                 <ImagePreview
                   setIsEditing={setIsEditing}
                   setImage={setImage}
@@ -85,17 +86,16 @@ function LoginPopup({ userLogin }) {
                     <div className="input-group ">
                       <div className="input-group-append">
                         <span className="input-group-text">
-                          <i className="fa fa-user"></i>
+                          <i className="fa fa-room"></i>
                         </span>
                       </div>
                       <input
                         type="text"
-                        name="username"
-                        className="form-control input_user"
-                        value={username}
-                        placeholder="username"
-                        onChange={(e) => setUsername(e.target.value)}
-                        maxLength={20}
+                        name="roomName"
+                        className="form-control input_room"
+                        value={roomName}
+                        placeholder="room name"
+                        onChange={(e) => setRoomname(e.target.value)}
                       />
                     </div>
                     <div className="mt-0 p-0 text-center text-danger">
@@ -121,4 +121,4 @@ function LoginPopup({ userLogin }) {
   );
 }
 
-export default LoginPopup;
+export default RoomPopup;

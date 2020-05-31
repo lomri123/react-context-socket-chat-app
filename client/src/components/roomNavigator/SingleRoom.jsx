@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
+import defaultImage from "../../assets/user-profile.png";
 
-export const SingleRoom = ({
+function SingleRoom({
   roomName,
   roomDesc,
-  roomImg,
   handleRoomOnClick,
   activeRoomProps,
-}) => {
+}) {
+  const [altImage, setAltImage] = useState(null);
+  const handleImageError = () => {
+    setAltImage(defaultImage);
+  };
   return (
     <div
       className={`chat_list ${
@@ -16,7 +20,14 @@ export const SingleRoom = ({
     >
       <div className="chat_people">
         <div className="chat_img">
-          <img src={roomImg} alt={roomName} />
+          <img
+            src={
+              altImage ||
+              `https://res.cloudinary.com/dgskc3t8b/image/upload/v1590802411/chat/rooms/${roomName}.png`
+            }
+            alt="user"
+            onError={() => handleImageError()}
+          />
         </div>
         <div className="chat_ib">
           <h5>{roomName}</h5>
@@ -25,4 +36,6 @@ export const SingleRoom = ({
       </div>
     </div>
   );
-};
+}
+
+export default SingleRoom;

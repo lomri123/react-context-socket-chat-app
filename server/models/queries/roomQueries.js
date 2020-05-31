@@ -13,11 +13,12 @@ const fetchRoom = (id) => {
 };
 
 const addRoom = (RoomData) => {
-  const { title, description, messages } = RoomData;
+  const { title, description, messages, createdBy } = RoomData;
   const room = {
     title,
     description,
     messages,
+    createdBy,
   };
   const tmpRoomSchema = new Room(room);
   const result = tmpRoomSchema.save();

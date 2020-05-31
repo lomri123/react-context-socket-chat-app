@@ -4,6 +4,9 @@ const {
   fetchRoom,
   addRoom,
 } = require("../models/queries/roomQueries");
+const uploadToCloudinary = require("../services/cloudinary");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 router.get("/", async (req, res) => {
   try {
@@ -23,9 +26,18 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", upload.single("img"), async (req, res) => {
   try {
-    let result = await addRoom(req.body.roomData);
+    let myFilePath = false;
+    if (req.file !== undefined) {
+      myFilePath = req.file.path;
+    }
+    const myRoomData = { ...JSON.parse(req.body.roomData), messages: [] };
+    console.log("new room", myRoomData, myFilePath);
+    let result = await addRoom(myRoomData);
+    if (myFilePath) {
+      uploadToCloudinary(myFilePath, "rooms", myRoomData.title);
+    }
     res.send(result);
   } catch (error) {
     res.status(404).send(error.errmsg);

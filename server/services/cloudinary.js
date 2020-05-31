@@ -9,11 +9,11 @@ cloudinary.config({
   api_secret: API_SECRET,
 });
 
-function uploadToCloudinary(myFile, uniqueFilename) {
+function uploadToCloudinary(myFile, directory, uniqueFilename) {
   return new Promise((res, rej) => {
     cloudinary.uploader.upload(
       myFile,
-      { public_id: `chat/${uniqueFilename}` },
+      { public_id: `chat/${directory}/${uniqueFilename}` },
       function (error, result) {
         fs.unlinkSync(myFile);
         if (error) rej(error);

@@ -12,11 +12,11 @@ function ImagePreview({ setIsEditing, setImage, image }) {
   };
 
   return (
-    <div class="d-flex justify-content-center mt-4">
-      <div class="brand_logo_container">
+    <div className="d-flex justify-content-center mt-4">
+      <div className="brand_logo_container">
         <img
           src={image ? URL.createObjectURL(image) : blankProfileImg}
-          class="brand_logo"
+          className="brand_logo"
           alt="Logo"
         />
         <input type="file" onChange={onFileUpload} />

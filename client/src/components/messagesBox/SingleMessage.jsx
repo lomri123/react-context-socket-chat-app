@@ -22,7 +22,7 @@ function SingleMessage({
           <img
             src={
               altImage ||
-              `https://res.cloudinary.com/dgskc3t8b/image/upload/v1590802411/chat/${messageFrom}.png`
+              `https://res.cloudinary.com/dgskc3t8b/image/upload/v1590802411/chat/users/${messageFrom}.png`
             }
             alt="user"
             onError={() => handleImageError()}

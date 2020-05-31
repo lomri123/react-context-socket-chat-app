@@ -1,18 +1,5 @@
 const axios = require("axios");
 
-export const getRooms = () => {
-  return new Promise((res, rej) => {
-    axios
-      .get("http://localhost:3008/api/rooms/")
-      .then(function (response) {
-        res(response);
-      })
-      .catch(function (error) {
-        rej(error);
-      });
-  });
-};
-
 export const getMessages = (
   room = "5ecee47b336c0d2adcb25a97",
   start = -20,

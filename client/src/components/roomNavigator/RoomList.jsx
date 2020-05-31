@@ -1,5 +1,5 @@
 import React from "react";
-import { SingleRoom } from "./SingleRoom";
+import SingleRoom from "./SingleRoom";
 
 function RoomList({ chatListProps, handleRoomOnClick, activeRoomProps }) {
   const roomList = chatListProps.map((room) => (

@@ -3,12 +3,13 @@ import { Context } from "../contexts/DataStore";
 import RoomList from "../components/roomNavigator/RoomList";
 import RoomTopBar from "../components/roomNavigator/RoomTopBar";
 import socket from "./../services/socket";
-import { getRooms } from "./../services/chatApi";
+import { getRooms } from "./../services/roomApi";
 import {
   addRoom,
   addRooms,
   changeActiveRoom,
 } from "../contexts/actions/actions";
+import RoomPopup from "../components/roomNavigator/RoomPopup";
 
 function RoomContainer() {
   const {
@@ -17,6 +18,8 @@ function RoomContainer() {
     activeRoom,
     dispatchActiveRoom,
   } = useContext(Context);
+
+  const [modalIsOpen, setIsOpen] = React.useState(false);
 
   const [roomFilter, setRoomFilter] = useState("");
 
@@ -56,16 +59,14 @@ function RoomContainer() {
   return (
     <>
       <div className="inbox_people">
-        <RoomTopBar
-          handleRoomSearch={handleRoomSearch}
-          addNewRoom={addNewRoom}
-        />
+        <RoomTopBar handleRoomSearch={handleRoomSearch} setIsOpen={setIsOpen} />
         <RoomList
           chatListProps={returnRoomList()}
           handleRoomOnClick={handleRoomOnClick}
           activeRoomProps={activeRoom}
         />
       </div>
+      <RoomPopup modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
     </>
   );
 }

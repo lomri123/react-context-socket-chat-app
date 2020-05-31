@@ -1,13 +1,16 @@
 import React from "react";
 
-function RoomTopBar({ handleRoomSearch, addNewRoom }) {
+function RoomTopBar({ handleRoomSearch, setIsOpen }) {
   return (
     <>
       <div className="headind_srch">
         <div className="recent_heading">
           <h4>
             Rooms
-            <i className="fa fa-plus-circle ml-2" onClick={addNewRoom}></i>
+            <i
+              className="fa fa-plus-circle ml-2"
+              onClick={() => setIsOpen(true)}
+            ></i>
           </h4>
         </div>
         <div className="srch_bar">

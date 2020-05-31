@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import MessageList from "../components/messagesBox/MessageList";
 import NewMessageBox from "./../components/messagesBox/NewMessageBox";
 import socket from "./../services/socket";
-import { getMessages } from "../services/chatApi";
+import { getMessages } from "../services/messageApi";
 import {
   addMessage,
   addMessages,

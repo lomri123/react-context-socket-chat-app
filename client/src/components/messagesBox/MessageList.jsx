@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import SingleMessage from "./SingleMessage";
 import LoadingAnimation from "./../LoadingAnimation";
-import { getMessages } from "../../services/chatApi";
+import { getMessages } from "../../services/messageApi";
 
 function MessageList({
   messageListProps,

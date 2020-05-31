@@ -71,7 +71,7 @@ class ImageEdit extends React.Component {
             value={zoom}
             name="zoom"
             onChange={this.handleZoomSlider}
-            class="custom-range"
+            className="custom-range"
             style={{ width: 200 }}
           />
         </div>
