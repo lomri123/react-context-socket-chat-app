@@ -30,7 +30,7 @@ function MessagesContainer() {
   }, []);
 
   const addNewMessages = (messages, isInitial) => {
-    if (messages.length > 0) {
+    if (messages.length > 0 || isInitial) {
       let dispatchMessages = {};
       if (isInitial) {
         dispatchMessages = setInitialMessages(messages);

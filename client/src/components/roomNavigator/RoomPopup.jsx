@@ -14,12 +14,13 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     border: "none",
+    minWidth: "500px",
   },
 };
 
 Modal.setAppElement("#root");
 
-function RoomPopup({ modalIsOpen, setIsOpen }) {
+function RoomPopup({ modalIsOpen, setIsOpen, addNewRoom }) {
   const [roomName, setRoomname] = React.useState("");
   const [error, setError] = React.useState("");
   const [isEditing, setIsEditing] = useState(false);
@@ -42,8 +43,8 @@ function RoomPopup({ modalIsOpen, setIsOpen }) {
         description: "description",
       };
       try {
-        const result = await addRoom(roomData, image);
-        // roomLogin(roomName, true);
+        const { data } = await addRoom(roomData, image);
+        addNewRoom(data);
         closeModal();
       } catch (error) {
         let errorMessage = "something went wrong";
@@ -58,66 +59,64 @@ function RoomPopup({ modalIsOpen, setIsOpen }) {
   }
 
   return (
-    <div>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Room Modal"
-      >
-        <div className="container">
-          {isEditing ? (
-            <ImageEdit
-              setImage={setImage}
-              image={image}
-              isEditing={isEditing}
-              setIsEditing={setIsEditing}
-            />
-          ) : (
-            <div className="d-flex justify-content-center mt-4">
-              <div className="room_card mt-4">
-                <ImagePreview
-                  setIsEditing={setIsEditing}
-                  setImage={setImage}
-                  image={image}
-                />
-                <div className="d-flex justify-content-center mt-4">
-                  <form onSubmit={handleSubmit}>
-                    <div className="input-group ">
-                      <div className="input-group-append">
-                        <span className="input-group-text">
-                          <i className="fa fa-room"></i>
-                        </span>
-                      </div>
-                      <input
-                        type="text"
-                        name="roomName"
-                        className="form-control input_room"
-                        value={roomName}
-                        placeholder="room name"
-                        onChange={(e) => setRoomname(e.target.value)}
-                      />
+    <Modal
+      isOpen={modalIsOpen}
+      onRequestClose={closeModal}
+      style={customStyles}
+      contentLabel="Room Modal"
+    >
+      <div className="container-fluid room_start">
+        {isEditing ? (
+          <ImageEdit
+            setImage={setImage}
+            image={image}
+            isEditing={isEditing}
+            setIsEditing={setIsEditing}
+          />
+        ) : (
+          <div className="d-flex justify-content-center mt-4">
+            <div className="user_card mt-4">
+              <ImagePreview
+                setIsEditing={setIsEditing}
+                setImage={setImage}
+                image={image}
+              />
+              <div className="d-flex justify-content-center mt-4">
+                <form onSubmit={handleSubmit}>
+                  <div className="input-group ">
+                    <div className="input-group-append">
+                      <span className="input-group-text">
+                        <i className="fa fa-user"></i>
+                      </span>
                     </div>
-                    <div className="mt-0 p-0 text-center text-danger">
-                      {error}&nbsp;
-                    </div>
-                    <div className="d-flex flex-column justify-content-center mt-2 login_container">
-                      <button
-                        type="submit"
-                        name="button"
-                        className="btn login_btn"
-                      >
-                        Login
-                      </button>
-                    </div>
-                  </form>
-                </div>
+                    <input
+                      type="text"
+                      name="roomName"
+                      className="form-control input_user"
+                      value={roomName}
+                      placeholder="room name"
+                      onChange={(e) => setRoomname(e.target.value)}
+                    />
+                  </div>
+                  <div className="mt-0 p-0 text-center text-danger">
+                    {error}&nbsp;
+                  </div>
+                  <div className="d-flex flex-column justify-content-center mt-2 login_container">
+                    <button
+                      type="submit"
+                      name="button"
+                      className="btn login_btn"
+                    >
+                      Login
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
-          )}
-        </div>
-      </Modal>
-    </div>
+          </div>
+        )}
+      </div>
+    </Modal>
   );
 }
 

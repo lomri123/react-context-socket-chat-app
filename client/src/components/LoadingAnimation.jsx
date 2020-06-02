@@ -1,6 +1,6 @@
 import React from "react";
 import { css } from "@emotion/core";
-import PropagateLoader from "react-spinners/PropagateLoader";
+import BeatLoader from "react-spinners/BeatLoader";
 
 const override = css`
   display: block;
@@ -15,11 +15,11 @@ class LoadingAnimation extends React.Component {
 
   render() {
     return (
-      <div className="sweet-loading">
-        <PropagateLoader
+      <div className="sweet-loading text-center mb-2">
+        <BeatLoader
           css={override}
-          size={150}
-          color={"#123abc"}
+          size={15}
+          color={"#05728f"}
           loading={this.state.loading}
         />
       </div>

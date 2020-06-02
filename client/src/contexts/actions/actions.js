@@ -38,7 +38,7 @@ export const updateMessageInd = (data) => {
 };
 
 export const addRoom = (room) => {
-  return { type: ADD_ROOM, room };
+  return { type: ADD_ROOM, ...room };
 };
 export const addRooms = (rooms) => {
   return { type: ADD_ROOMS, rooms };

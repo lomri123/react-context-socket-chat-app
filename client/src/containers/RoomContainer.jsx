@@ -23,7 +23,7 @@ function RoomContainer() {
 
   const [roomFilter, setRoomFilter] = useState("");
 
-  const handleRoomOnClick = (room) => {
+  const handleRoomChange = (room) => {
     const roomDispatch = changeActiveRoom(room);
     dispatchActiveRoom(roomDispatch);
     const user = localStorage.getItem("userData");
@@ -33,9 +33,11 @@ function RoomContainer() {
       localStorage.setItem("userData", JSON.stringify(tmpUser));
     }
   };
+
   const addNewRoom = (room) => {
     const roomsDispatch = addRoom(room);
     dispatchRoomList(roomsDispatch);
+    handleRoomChange(room._id);
   };
   const addNewRooms = useCallback((rooms) => {
     const roomsDispatch = addRooms(rooms);
@@ -68,11 +70,15 @@ function RoomContainer() {
         <RoomTopBar handleRoomSearch={handleRoomSearch} setIsOpen={setIsOpen} />
         <RoomList
           chatListProps={returnRoomList()}
-          handleRoomOnClick={handleRoomOnClick}
+          handleRoomOnClick={handleRoomChange}
           activeRoom={activeRoom}
         />
       </div>
-      <RoomPopup modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
+      <RoomPopup
+        modalIsOpen={modalIsOpen}
+        setIsOpen={setIsOpen}
+        addNewRoom={addNewRoom}
+      />
     </>
   );
 }

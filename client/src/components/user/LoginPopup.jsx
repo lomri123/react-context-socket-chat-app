@@ -14,6 +14,7 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     border: "none",
+    minWidth: "500px",
   },
 };
 
@@ -56,68 +57,66 @@ function LoginPopup({ userLogin }) {
   }
 
   return (
-    <div>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        shouldCloseOnOverlayClick={false}
-        style={customStyles}
-        contentLabel="Login Modal"
-      >
-        <div className="container">
-          {isEditing ? (
-            <ImageEdit
-              setImage={setImage}
-              image={image}
-              isEditing={isEditing}
-              setIsEditing={setIsEditing}
-            />
-          ) : (
-            <div className="d-flex justify-content-center mt-4">
-              <div className="user_card mt-4">
-                <ImagePreview
-                  setIsEditing={setIsEditing}
-                  setImage={setImage}
-                  image={image}
-                />
-                <div className="d-flex justify-content-center mt-4">
-                  <form onSubmit={handleSubmit}>
-                    <div className="input-group ">
-                      <div className="input-group-append">
-                        <span className="input-group-text">
-                          <i className="fa fa-user"></i>
-                        </span>
-                      </div>
-                      <input
-                        type="text"
-                        name="username"
-                        className="form-control input_user"
-                        value={username}
-                        placeholder="username"
-                        onChange={(e) => setUsername(e.target.value)}
-                        maxLength={20}
-                      />
+    <Modal
+      isOpen={modalIsOpen}
+      onRequestClose={closeModal}
+      shouldCloseOnOverlayClick={false}
+      style={customStyles}
+      contentLabel="Login Modal"
+    >
+      <div className="container-fluid">
+        {isEditing ? (
+          <ImageEdit
+            setImage={setImage}
+            image={image}
+            isEditing={isEditing}
+            setIsEditing={setIsEditing}
+          />
+        ) : (
+          <div className="d-flex justify-content-center mt-4">
+            <div className="user_card mt-4">
+              <ImagePreview
+                setIsEditing={setIsEditing}
+                setImage={setImage}
+                image={image}
+              />
+              <div className="d-flex justify-content-center mt-4">
+                <form onSubmit={handleSubmit}>
+                  <div className="input-group ">
+                    <div className="input-group-append">
+                      <span className="input-group-text">
+                        <i className="fa fa-user"></i>
+                      </span>
                     </div>
-                    <div className="mt-0 p-0 text-center text-danger">
-                      {error}&nbsp;
-                    </div>
-                    <div className="d-flex flex-column justify-content-center mt-2 login_container">
-                      <button
-                        type="submit"
-                        name="button"
-                        className="btn login_btn"
-                      >
-                        Login
-                      </button>
-                    </div>
-                  </form>
-                </div>
+                    <input
+                      type="text"
+                      name="username"
+                      className="form-control input_user"
+                      value={username}
+                      placeholder="username"
+                      onChange={(e) => setUsername(e.target.value)}
+                      maxLength={20}
+                    />
+                  </div>
+                  <div className="mt-0 p-0 text-center text-danger">
+                    {error}&nbsp;
+                  </div>
+                  <div className="d-flex flex-column justify-content-center mt-2 login_container">
+                    <button
+                      type="submit"
+                      name="button"
+                      className="btn login_btn"
+                    >
+                      Login
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
-          )}
-        </div>
-      </Modal>
-    </div>
+          </div>
+        )}
+      </div>
+    </Modal>
   );
 }
 

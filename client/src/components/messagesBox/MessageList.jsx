@@ -4,6 +4,8 @@ import SingleMessage from "./SingleMessage";
 import LoadingAnimation from "./../LoadingAnimation";
 import { getMessages } from "../../services/messageApi";
 
+let freshMount = true;
+
 function MessageList({
   messageListProps,
   addNewMessages,
@@ -19,7 +21,7 @@ function MessageList({
     messagesEndRef.current.scrollIntoView();
   };
 
-  const loadMore = async () => {
+  const loadMore = async (isReset) => {
     try {
       const result = await getMessages(
         activeRoom,
@@ -29,11 +31,16 @@ function MessageList({
       if (data.length > 0) {
         if (records === 0) {
           addNewMessages(data, true);
+          scrollToBottom();
         } else {
           addNewMessages(data);
         }
-        scrollToBottom();
         setRecords(records + data.length);
+      } else {
+        if (isReset === true) {
+          addNewMessages(data, true);
+          scrollToBottom();
+        }
       }
       if (data.length < itemsPerPage) {
         setHasMoreItems(false);
@@ -42,6 +49,20 @@ function MessageList({
       console.log(error);
     }
   };
+
+  const resetScroller = () => {
+    setRecords(0);
+    setHasMoreItems(true);
+    loadMore(true);
+  };
+
+  useEffect(() => {
+    if (freshMount) {
+      freshMount = false;
+    } else {
+      resetScroller();
+    }
+  }, [activeRoom]);
 
   const messageList = messageListProps.map((message) => (
     <SingleMessage
