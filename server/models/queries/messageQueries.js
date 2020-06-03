@@ -45,12 +45,13 @@ const fetchMessagesRange = (id, start = -20, quantity = 20) => {
 
 const addMessage = (MessageData, room) => {
   const { text, from, createdAt } = MessageData;
+  console.log("adding new message", text, from, createdAt, room);
   const message = {
     text,
     from,
     createdAt,
   };
-  return Room.findOneAndUpdate(
+  return Room.findByIdAndUpdate(
     room,
     {
       $push: { messages: message },

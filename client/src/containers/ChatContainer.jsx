@@ -11,7 +11,7 @@ function ChatContainer() {
   const { dispatchUserData, dispatchActiveRoom } = useContext(Context);
 
   const userLogin = useCallback((user, isNew) => {
-    socket.emit("joinRoom", { user }, (error) => {
+    socket.emit("join", { user }, (error) => {
       if (error) {
         console.log("userLogin error", error);
         alert(error);

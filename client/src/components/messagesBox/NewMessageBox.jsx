@@ -2,23 +2,23 @@ import React, { useState, useRef, useEffect } from "react";
 import cleanText from "./../../utils/badWords";
 
 function NewMessageBox({ sendNewMessage }) {
-  const [newMessageData, updateNewMessageData] = useState("");
-  const handleMessageFormChange = (e) => {
+  const [newMessage, updateNewMessage] = useState("");
+  const handleMessageChange = (e) => {
     let value = e.target.value;
-    updateNewMessageData(value);
+    updateNewMessage(value);
   };
 
   const handleMessageSubmit = (e) => {
     e.preventDefault();
-    if (newMessageData !== "") {
-      const cleanMessage = cleanText(newMessageData);
+    if (newMessage !== "") {
+      const cleanMessage = cleanText(newMessage);
       const currentDate = new Date();
       let tmpMessage = {
         text: cleanMessage,
         createdAt: currentDate,
       };
       sendNewMessage(tmpMessage);
-      updateNewMessageData("");
+      updateNewMessage("");
     }
   };
 
@@ -35,8 +35,8 @@ function NewMessageBox({ sendNewMessage }) {
             type="text"
             className="write_msg"
             placeholder="Type a message"
-            value={newMessageData}
-            onChange={(e) => handleMessageFormChange(e)}
+            value={newMessage}
+            onChange={(e) => handleMessageChange(e)}
             ref={messageBoxRef}
           />
           <button className="msg_send_btn" type="submit">

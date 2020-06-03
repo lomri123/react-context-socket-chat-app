@@ -4,7 +4,6 @@ import { v4 as uuidv4 } from "uuid";
 import MessageList from "../components/messagesBox/MessageList";
 import NewMessageBox from "./../components/messagesBox/NewMessageBox";
 import socket from "./../services/socket";
-import { getMessages } from "../services/messageApi";
 import {
   addMessage,
   addMessages,
@@ -47,6 +46,7 @@ function MessagesContainer() {
   }, []);
 
   const handleIncomingMessage = useCallback((data, user) => {
+    console.log("got incoming message", data, user);
     if (data.message.from === user?.username) {
       updateNewMessageInd(data);
     } else {

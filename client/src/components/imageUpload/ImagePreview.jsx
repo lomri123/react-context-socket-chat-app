@@ -19,7 +19,7 @@ function ImagePreview({ setIsEditing, setImage, image }) {
           alt="Logo"
         />
         <label>
-          <i class="fa fa-upload">
+          <i className="fa fa-upload">
             <input type="file" className="inputfile" onChange={onFileUpload} />
           </i>
         </label>

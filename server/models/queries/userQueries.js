@@ -8,6 +8,11 @@ const fetchUser = (id) => {
   return User.findById(id);
 };
 
+const authenticateUser = async (id, username) => {
+  const user = await User.findById(id);
+  return user.username === username;
+};
+
 const deleteUser = (id) => {
   return User.findByIdAndDelete(id);
 };
@@ -33,4 +38,5 @@ module.exports = {
   updateUser,
   fetchUser,
   addUser,
+  authenticateUser,
 };

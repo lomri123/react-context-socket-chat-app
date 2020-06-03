@@ -9,6 +9,12 @@ function userJoin(id, username, room) {
   return user;
 }
 
+// Change active room
+function userChangeRoom(id, room) {
+  const userIndex = users.findIndex((user) => user.id === id);
+  users[userIndex].room = room;
+}
+
 // Get current user
 function getCurrentUser(id) {
   return users.find((user) => user.id === id);
@@ -33,4 +39,5 @@ module.exports = {
   getCurrentUser,
   userLeave,
   getRoomUsers,
+  userChangeRoom,
 };

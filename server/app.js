@@ -12,31 +12,45 @@ const roomController = require("./controllers/roomController");
 const messageController = require("./controllers/messageController");
 const userController = require("./controllers/userController");
 const { addMessage } = require("./models/queries/messageQueries");
+const { authenticateUser } = require("./models/queries/userQueries");
 const formatMessage = require("./utils/formatMessage");
-const { userJoin, getCurrentUser, userLeave } = require("./databases/localDB");
+const {
+  userJoin,
+  getCurrentUser,
+  userLeave,
+  userChangeRoom,
+} = require("./databases/localDB");
 
 app.use("/api/rooms", roomController);
 app.use("/api/messages", messageController);
 app.use("/api/users", userController);
 
-io.on("connection", (client) => {
-  client.on("joinRoom", async (data) => {
-    const { username, room } = data.user;
-    console.log("joined room", data);
-    userJoin(client.id, username, room);
-    client.join(room);
-    client.emit("message", formatMessage("Admin", "Welcome to chat!"));
-    client.broadcast
-      .to(room)
-      .emit(
+io.on("connection", (socket) => {
+  socket.on("join", async (data) => {
+    const { _id, username, room } = data.user;
+    if (authenticateUser(_id, username)) {
+      console.log("user joined", data);
+      userJoin(socket.id, username, room);
+      socket.join(room);
+      socket.emit("message", formatMessage("Admin", "Welcome to chat!"));
+      socket.broadcast
+        .to(room)
+        .emit(
+          "message",
+          formatMessage("Admin", `${username} has joined the chat`)
+        );
+    } else {
+      socket.emit(
         "message",
-        formatMessage("Admin", `${username} has joined the chat`)
+        formatMessage("Admin", "Authentication failed, please contact support")
       );
-    client.on("chatMessage", async (data) => {
+      socket.disconnect();
+    }
+    socket.on("chatMessage", async (data) => {
       const { message, tmpId } = data;
-      const { room } = getCurrentUser(client.id);
+      const { room, username } = getCurrentUser(socket.id);
       try {
-        const result = await addMessage(message, room);
+        const result = await addMessage({ ...message, from: username }, room);
         const newMessage = result.messages[0];
         io.to(room).emit("message", {
           message: newMessage,
@@ -44,20 +58,26 @@ io.on("connection", (client) => {
         });
       } catch (error) {
         console.log("addMessage error", error);
-        client.emit("message", {
+        socket.emit("message", {
           from: "Admin",
           text: "problem sending message" + data,
         });
       }
     });
-    client.on("disconnect", () => {
-      const user = userLeave(client.id);
+    socket.on("disconnect", () => {
+      const user = userLeave(socket.id);
       if (user) {
         io.to(user.room).emit(
           "message",
           formatMessage("Admin", `${user.username} has left the chat`)
         );
       }
+    });
+    socket.on("change room", function (data) {
+      const { newroom } = data;
+      userChangeRoom(socket.id, newroom);
+      socket.leave(socket.room);
+      socket.join(newroom);
     });
   });
 });

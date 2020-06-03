@@ -268,7 +268,7 @@ img {
   color: #05728f;
   text-decoration: none;
   text-transform: uppercase;
-  font-size: 80px;
+  font-size: 70px;
   font-weight: 800;
   letter-spacing: -3px;
   line-height: 1;
@@ -279,7 +279,7 @@ img {
   content: "CHAT APP";
   position: absolute;
   left: 8px;
-  top: 10px;
+  top: 8px;
 }
 .logo:after {
   /*background: url(https://subtlepatterns.com/patterns/crossed_stripes.png) repeat;*/

@@ -24,7 +24,8 @@ class ImageEdit extends React.Component {
     this.props.setIsEditing(false);
   };
 
-  handleZoomSlider = (event, value) => {
+  handleZoomSlider = (event) => {
+    const { value } = event.target;
     this.setState({ zoom: value });
   };
 

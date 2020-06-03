@@ -31,6 +31,7 @@ function RoomContainer() {
       const tmpUser = JSON.parse(user);
       tmpUser.room = room;
       localStorage.setItem("userData", JSON.stringify(tmpUser));
+      socket.emit("change room", { newroom: room });
     }
   };
 
