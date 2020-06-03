@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import blankProfileImg from "../../assets/user-avatar.png";
 
 function ImagePreview({ setIsEditing, setImage, image }) {
@@ -27,5 +28,11 @@ function ImagePreview({ setIsEditing, setImage, image }) {
     </div>
   );
 }
+
+ImagePreview.propTypes = {
+  setIsEditing: PropTypes.func,
+  setImage: PropTypes.func,
+  image: PropTypes.object,
+};
 
 export default ImagePreview;

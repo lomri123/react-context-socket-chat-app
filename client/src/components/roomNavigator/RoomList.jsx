@@ -1,8 +1,9 @@
 import React from "react";
+import PropTypes from "prop-types";
 import SingleRoom from "./SingleRoom";
 
-function RoomList({ chatListProps, handleRoomOnClick, activeRoom }) {
-  const roomList = chatListProps.map((room) => (
+function RoomList({ chatList, handleRoomOnClick, activeRoom }) {
+  const roomList = chatList.map((room) => (
     <SingleRoom
       roomName={room.title}
       roomDesc={room.description}
@@ -19,5 +20,11 @@ function RoomList({ chatListProps, handleRoomOnClick, activeRoom }) {
     </>
   );
 }
+
+RoomList.propTypes = {
+  chatList: PropTypes.array,
+  handleRoomOnClick: PropTypes.func,
+  activeRoom: PropTypes.string,
+};
 
 export default RoomList;

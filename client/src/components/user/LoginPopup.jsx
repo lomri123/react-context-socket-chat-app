@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import Modal from "react-modal";
 import { registerUser } from "../../services/userApi";
 import ImagePreview from "../imageUpload/ImagePreview";
@@ -119,5 +120,9 @@ function LoginPopup({ userLogin }) {
     </Modal>
   );
 }
+
+LoginPopup.propTypes = {
+  userLogin: PropTypes.func,
+};
 
 export default LoginPopup;

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import moment from "moment";
 import Avatar from "react-avatar";
 
@@ -47,5 +48,13 @@ function SingleMessage({
     </div>
   );
 }
+
+SingleMessage.propTypes = {
+  messageFrom: PropTypes.string,
+  messageText: PropTypes.string,
+  messageTime: PropTypes.string,
+  sentInd: PropTypes.bool,
+  currentUser: PropTypes.string,
+};
 
 export default SingleMessage;

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroller";
 import SingleMessage from "./SingleMessage";
 import LoadingAnimation from "./../LoadingAnimation";
@@ -6,12 +7,7 @@ import { getMessages } from "../../services/messageApi";
 
 let freshMount = true;
 
-function MessageList({
-  messageListProps,
-  addNewMessages,
-  activeRoom,
-  userData,
-}) {
+function MessageList({ messageList, addNewMessages, activeRoom, userData }) {
   const itemsPerPage = 20;
   const [hasMoreItems, setHasMoreItems] = useState(true);
   const [records, setRecords] = useState(0);
@@ -64,7 +60,7 @@ function MessageList({
     }
   }, [activeRoom]);
 
-  const messageList = messageListProps.map((message) => (
+  const messages = messageList.map((message) => (
     <SingleMessage
       messageFrom={message.from}
       messageText={message.text}
@@ -86,12 +82,19 @@ function MessageList({
           useWindow={false}
           isReverse={true}
         >
-          {messageList}
+          {messages}
           <div ref={messagesEndRef} />
         </InfiniteScroll>
       </div>
     </>
   );
 }
+
+MessageList.propTypes = {
+  setIsEditing: PropTypes.func,
+  messageList: PropTypes.array,
+  activeRoom: PropTypes.string,
+  userData: PropTypes.object,
+};
 
 export default MessageList;

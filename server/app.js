@@ -76,7 +76,7 @@ io.on("connection", (socket) => {
     socket.on("change room", function (data) {
       const { newroom } = data;
       userChangeRoom(socket.id, newroom);
-      socket.leave(socket.room);
+      socket.leave(room);
       socket.join(newroom);
     });
   });

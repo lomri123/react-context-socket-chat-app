@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 function RoomTopBar({ handleRoomSearch, setIsOpen }) {
   return (
@@ -32,5 +33,10 @@ function RoomTopBar({ handleRoomSearch, setIsOpen }) {
     </>
   );
 }
+
+RoomTopBar.propTypes = {
+  handleRoomSearch: PropTypes.func,
+  setIsOpen: PropTypes.func,
+};
 
 export default RoomTopBar;

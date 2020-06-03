@@ -70,7 +70,7 @@ function RoomContainer() {
       <div className="inbox_people">
         <RoomTopBar handleRoomSearch={handleRoomSearch} setIsOpen={setIsOpen} />
         <RoomList
-          chatListProps={returnRoomList()}
+          chatList={returnRoomList()}
           handleRoomOnClick={handleRoomChange}
           activeRoom={activeRoom}
         />

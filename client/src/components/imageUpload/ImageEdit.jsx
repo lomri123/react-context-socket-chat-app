@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import AvatarEditor from "react-avatar-editor";
 
 class ImageEdit extends React.Component {
@@ -98,5 +99,11 @@ class ImageEdit extends React.Component {
     );
   }
 }
+
+ImageEdit.propTypes = {
+  setIsEditing: PropTypes.func,
+  setImage: PropTypes.func,
+  image: PropTypes.object,
+};
 
 export default ImageEdit;

@@ -65,7 +65,7 @@ function MessagesContainer() {
     <>
       <div className="mesgs">
         <MessageList
-          messageListProps={messageData}
+          messageList={messageData}
           addNewMessages={addNewMessages}
           activeRoom={activeRoom}
           userData={userData}

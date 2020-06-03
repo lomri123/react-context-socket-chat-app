@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import Avatar from "react-avatar";
 
 function SingleRoom({
@@ -31,5 +32,13 @@ function SingleRoom({
     </div>
   );
 }
+
+SingleRoom.propTypes = {
+  handleRoomOnClick: PropTypes.func,
+  roomName: PropTypes.string,
+  roomDesc: PropTypes.string,
+  activeRoom: PropTypes.string,
+  roomId: PropTypes.string,
+};
 
 export default SingleRoom;
