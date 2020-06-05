@@ -4,16 +4,26 @@ import InfiniteScroll from "react-infinite-scroller";
 import SingleMessage from "./SingleMessage";
 import LoadingAnimation from "./../LoadingAnimation";
 import { getMessages } from "../../services/messageApi";
+import compareTwoMessages from "./../../utils/compareTwoMessages";
 
 let freshMount = true;
 
-function MessageList({ messageList, addNewMessages, activeRoom, userData }) {
+function MessageList({
+  messageList,
+  addNewMessages,
+  activeRoom,
+  userData,
+  userLastMessage,
+}) {
   const itemsPerPage = 20;
   const [hasMoreItems, setHasMoreItems] = useState(true);
   const [records, setRecords] = useState(0);
+  const [unreadMessages, setUnreadMessages] = useState(0);
+  const [lastMessage, setLastMessage] = useState(null);
+  const [isBottom, setIsBottom] = useState(true);
   const messagesEndRef = useRef(null);
 
-  const scrollToBottom = (behavior) => {
+  const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView();
   };
 
@@ -31,7 +41,6 @@ function MessageList({ messageList, addNewMessages, activeRoom, userData }) {
         } else {
           addNewMessages(data);
         }
-        setRecords(records + data.length);
       } else {
         if (isReset === true) {
           addNewMessages(data, true);
@@ -50,6 +59,18 @@ function MessageList({ messageList, addNewMessages, activeRoom, userData }) {
     setRecords(0);
     setHasMoreItems(true);
     loadMore(true);
+    setUnreadMessages(0);
+  };
+
+  const handleScroll = (e) => {
+    const bottom =
+      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    if (bottom) {
+      setIsBottom(true);
+      setUnreadMessages(0);
+    } else {
+      setIsBottom(false);
+    }
   };
 
   useEffect(() => {
@@ -59,6 +80,27 @@ function MessageList({ messageList, addNewMessages, activeRoom, userData }) {
       resetScroller();
     }
   }, [activeRoom]);
+
+  useEffect(() => {
+    const filteredMessages = messageList.filter(
+      (message) => message.from !== "Admin"
+    );
+    const tmpLastMessage = filteredMessages.slice(-1)[0];
+    setRecords(filteredMessages.length);
+    if (isBottom) {
+      scrollToBottom();
+    } else {
+      if (
+        filteredMessages.length > 0 &&
+        compareTwoMessages(userLastMessage, tmpLastMessage)
+      ) {
+        scrollToBottom();
+      } else if (!compareTwoMessages(lastMessage, tmpLastMessage)) {
+        setUnreadMessages((unreadMessages) => unreadMessages + 1);
+      }
+    }
+    setLastMessage(tmpLastMessage);
+  }, [messageList]);
 
   const messages = messageList.map((message) => (
     <SingleMessage
@@ -73,12 +115,12 @@ function MessageList({ messageList, addNewMessages, activeRoom, userData }) {
 
   return (
     <>
-      <div className="msg_history">
+      <div className="msg_history" onScroll={handleScroll}>
         <InfiniteScroll
           loadMore={loadMore}
           initialLoad={true}
           hasMore={hasMoreItems}
-          loader={<LoadingAnimation />}
+          loader={<LoadingAnimation key={0} />}
           useWindow={false}
           isReverse={true}
         >
@@ -86,6 +128,9 @@ function MessageList({ messageList, addNewMessages, activeRoom, userData }) {
           <div ref={messagesEndRef} />
         </InfiniteScroll>
       </div>
+      {unreadMessages > 0 ? (
+        <div className="unread_msg_count">{unreadMessages}</div>
+      ) : null}
     </>
   );
 }

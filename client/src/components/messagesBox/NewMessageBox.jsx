@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import cleanText from "./../../utils/badWords";
 
-function NewMessageBox({ sendNewMessage }) {
+function NewMessageBox({ sendNewMessage, userData }) {
   const [newMessage, updateNewMessage] = useState("");
   const handleMessageChange = (e) => {
     let value = e.target.value;
@@ -11,7 +11,7 @@ function NewMessageBox({ sendNewMessage }) {
 
   const handleMessageSubmit = (e) => {
     e.preventDefault();
-    if (newMessage !== "") {
+    if (newMessage !== "" && userData.username) {
       const cleanMessage = cleanText(newMessage);
       const currentDate = new Date();
       let tmpMessage = {
@@ -51,6 +51,7 @@ function NewMessageBox({ sendNewMessage }) {
 
 NewMessageBox.propTypes = {
   sendNewMessage: PropTypes.func,
+  userData: PropTypes.object,
 };
 
 export default NewMessageBox;

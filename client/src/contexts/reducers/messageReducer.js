@@ -7,17 +7,7 @@ import {
 import arrageMessageList from "../../utils/arrageMessageList";
 
 const reducer = (state, action) => {
-  const {
-    from,
-    room,
-    text,
-    createdAt,
-    type,
-    messages,
-    _id,
-    tmpId,
-    sentInd,
-  } = action;
+  const { from, text, createdAt, type, messages, _id, tmpId, sentInd } = action;
   switch (type) {
     case ADD_MESSAGES:
       const sortedArr = arrageMessageList(messages, state);
@@ -29,7 +19,6 @@ const reducer = (state, action) => {
         ...state,
         {
           from,
-          room,
           text,
           createdAt,
           _id,

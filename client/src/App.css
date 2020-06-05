@@ -137,6 +137,7 @@ img {
   width: 57%;
 }
 .mesgs {
+  position: relative;
   float: left;
   padding: 30px 15px 0 25px;
   width: 60%;
@@ -234,7 +235,6 @@ img {
 }
 .login_btn {
   width: 100%;
-  background: #9a3334 !important;
   color: white !important;
 }
 .login_btn:focus {
@@ -308,4 +308,27 @@ img {
   overflow: hidden;
   position: absolute;
   z-index: -1;
+}
+
+.image_upload_btn {
+  color: white;
+  cursor: pointer;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  margin-right: -55%;
+  top: 60%;
+  left: 45%;
+}
+
+.unread_msg_count {
+  position: absolute;
+  bottom: 13%;
+  right: 7%;
+  padding: 1px 10px;
+  border-radius: 50%;
+  color: white;
+  background-color: #05728f;
+  border: 1px solid #05728f;
+  font-size: large;
+  cursor: pointer;
 }

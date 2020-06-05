@@ -5,9 +5,8 @@ const {
   addRoom,
 } = require("../models/queries/roomQueries");
 const uploadToCloudinary = require("../services/cloudinary");
-const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
-
+const upload = require("../middlewares/multer");
+const { validationRules, validate } = require("../middlewares/validator");
 router.get("/", async (req, res) => {
   try {
     const result = await fetchAllRooms();
@@ -26,22 +25,29 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", upload.single("img"), async (req, res) => {
-  try {
-    let myFilePath = false;
-    if (req.file !== undefined) {
-      myFilePath = req.file.path;
+router.post(
+  "/",
+  upload.single("img"),
+  validationRules("addRoom"),
+  validate,
+  async (req, res) => {
+    const parsedRoomData = JSON.parse(req.body.roomData);
+    try {
+      let myFilePath = false;
+      if (req.file !== undefined) {
+        myFilePath = req.file.path;
+      }
+      const myRoomData = { ...parsedRoomData, messages: [] };
+      console.log("new room", myRoomData, myFilePath);
+      let result = await addRoom(myRoomData);
+      if (myFilePath) {
+        uploadToCloudinary(myFilePath, "rooms", myRoomData.title);
+      }
+      res.send(result);
+    } catch (error) {
+      res.status(404).send(error.errmsg);
     }
-    const myRoomData = { ...JSON.parse(req.body.roomData), messages: [] };
-    console.log("new room", myRoomData, myFilePath);
-    let result = await addRoom(myRoomData);
-    if (myFilePath) {
-      uploadToCloudinary(myFilePath, "rooms", myRoomData.title);
-    }
-    res.send(result);
-  } catch (error) {
-    res.status(404).send(error.errmsg);
   }
-});
+);
 
 module.exports = router;

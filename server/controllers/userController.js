@@ -6,8 +6,7 @@ const {
   addUser,
 } = require("../models/queries/userQueries");
 const uploadToCloudinary = require("../services/cloudinary");
-const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
+const upload = require("../middlewares/multer");
 
 router.get("/:id", async (req, res) => {
   try {

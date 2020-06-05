@@ -36,7 +36,7 @@ function ChatContainer() {
 
   return (
     <>
-      <h1 class="logo my-4">Chat app</h1>
+      <h1 className="logo my-4">Chat app</h1>
       <div className="messaging">
         <div className="inbox_msg">
           {isLoggedIn ? null : <LoginPopup userLogin={userLogin} />}

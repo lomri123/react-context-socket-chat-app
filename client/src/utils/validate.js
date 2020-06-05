@@ -11,3 +11,12 @@ export const validateUser = (username) => {
   }
   return {};
 };
+
+export const validateImage = (image) => {
+  if (image && image.type.substring(0, 6) !== "image/") {
+    return "not a valid image file";
+  } else if (image.size > 5000000) {
+    return "maximum image size is 5mb";
+  }
+  return "";
+};

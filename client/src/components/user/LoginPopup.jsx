@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Modal from "react-modal";
 import { registerUser } from "../../services/userApi";
-import ImagePreview from "../imageUpload/ImagePreview";
+import ImageUpload from "../imageUpload/ImageUpload";
 import ImageEdit from "../imageUpload/ImageEdit";
 import { validateUser } from "./../../utils/validate";
 
@@ -28,11 +28,11 @@ function LoginPopup({ userLogin }) {
   const [isEditing, setIsEditing] = useState(false);
   const [image, setImage] = useState(null);
 
-  function openModal() {
-    setIsOpen(true);
-  }
-
   function closeModal() {
+    setUsername("");
+    setError("");
+    setIsEditing(false);
+    setImage(null);
     setIsOpen(false);
   }
 
@@ -76,10 +76,12 @@ function LoginPopup({ userLogin }) {
         ) : (
           <div className="d-flex justify-content-center mt-4">
             <div className="user_card mt-4">
-              <ImagePreview
+              <ImageUpload
                 setIsEditing={setIsEditing}
                 setImage={setImage}
                 image={image}
+                setError={setError}
+                type="login"
               />
               <div className="d-flex justify-content-center mt-4">
                 <form onSubmit={handleSubmit}>
@@ -107,6 +109,7 @@ function LoginPopup({ userLogin }) {
                       type="submit"
                       name="button"
                       className="btn login_btn"
+                      style={{ background: "#9a3334" }}
                     >
                       Login
                     </button>
