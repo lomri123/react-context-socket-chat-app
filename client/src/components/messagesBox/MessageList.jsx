@@ -129,7 +129,9 @@ function MessageList({
         </InfiniteScroll>
       </div>
       {unreadMessages > 0 ? (
-        <div className="unread_msg_count">{unreadMessages}</div>
+        <div className="unread_msg_count" onClick={scrollToBottom}>
+          {unreadMessages}
+        </div>
       ) : null}
     </>
   );

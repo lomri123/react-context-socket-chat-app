@@ -34,14 +34,14 @@ function ImageUpload({ setIsEditing, setImage, setError, image, type }) {
   return (
     <div className="d-flex justify-content-center mt-4">
       <div className="brand_logo_container">
-        <img src={returnImgSrc()} className="brand_logo" alt="Logo" />
+        <img src={returnImgSrc()} className="brand_logo mb-0" alt="Logo" />
         {image ? (
           <label className="mx-2 image_upload_btn" onClick={onFileReset}>
-            <i className="fa fa-times fa-lg"></i>
+            <i className="fa fa-times fa-2x"></i>
           </label>
         ) : (
           <label className="mx-2 image_upload_btn ">
-            <i className="fa fa-pencil fa-lg mt-0">
+            <i className="fa fa-upload fa-2x mt-0">
               <input
                 type="file"
                 accept="image/*"

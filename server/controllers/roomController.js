@@ -6,7 +6,7 @@ const {
 } = require("../models/queries/roomQueries");
 const uploadToCloudinary = require("../services/cloudinary");
 const upload = require("../middlewares/multer");
-const { validationRules, validate } = require("../middlewares/validator");
+const { stringValidate } = require("../middlewares/validator");
 router.get("/", async (req, res) => {
   try {
     const result = await fetchAllRooms();
@@ -25,13 +25,12 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post(
-  "/",
-  upload.single("img"),
-  validationRules("addRoom"),
-  validate,
-  async (req, res) => {
-    const parsedRoomData = JSON.parse(req.body.roomData);
+router.post("/", upload.single("img"), async (req, res) => {
+  const parsedRoomData = JSON.parse(req.body.roomData);
+  const roomValidate = stringValidate(parsedRoomData.title);
+  if (roomValidate !== "") {
+    res.status(404).send(roomValidate);
+  } else {
     try {
       let myFilePath = false;
       if (req.file !== undefined) {
@@ -48,6 +47,6 @@ router.post(
       res.status(404).send(error.errmsg);
     }
   }
-);
+});
 
 module.exports = router;

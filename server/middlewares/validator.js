@@ -2,34 +2,35 @@ const { body, check, validationResult } = require("express-validator");
 
 const validationRules = (action) => {
   switch (action) {
-    case "createUser": {
-      return [
-        body("userName", "Invalid userName").exists(),
-        body("email", "Invalid email").exists().isEmail(),
-        body("phone").optional().isInt(),
-        body("status").optional().isIn(["enabled", "disabled"]),
-      ];
-    }
     case "addMessage": {
       return [
-        body("text", "Invalid text").exists().isString(),
-        body("from", "Invalid from").exists().isString(),
-        body("to", "Invalid to").exists().isString(),
+        body("text", "Invalid text").exists().isString().not().isEmpty(),
+        body("from", "Invalid from").exists().isString().not().isEmpty(),
+        body("to", "Invalid to").exists().isString().not().isEmpty(),
         body("createdAt", "Invalid createdAt").exists().isString(),
       ];
     }
     case "fetchMessagesRange": {
       return [
-        body("room", "Invalid room").exists().isString(),
+        body("room", "Invalid room").exists().isString().not().isEmpty(),
         body("start").optional().isInt({ max: 0 }),
         body("quantity").optional().isInt({ min: 1 }),
       ];
     }
     case "addRoom": {
       return [
-        check("title", "Invalid title").exists().isString(),
-        check("description", "Invalid description").optional().isString(),
-        check("createdBy", "Invalid createdBy").exists().isString(),
+        body("title", "Invalid title").exists().isString().not().isEmpty(),
+        body("description", "Invalid description").optional().isString(),
+        body("createdBy", "Invalid createdBy").optional().isString(),
+      ];
+    }
+    case "addUser": {
+      return [
+        body("username", "Invalid username")
+          .exists()
+          .isString()
+          .not()
+          .isEmpty(),
       ];
     }
   }
@@ -47,8 +48,17 @@ const validate = (req, res, next) => {
     errors: extractedErrors,
   });
 };
+const stringValidate = (str) => {
+  let error = "";
+  if (str.length === 0 || !str.trim())
+    error = "string is empty, null or undefined";
+  if (!str || /^\s*$/.test(str)) error = "string is blank, null or undefined";
+  if (!str || 0 === str.length) error = "string is blank";
+  return error;
+};
 
 module.exports = {
   validationRules,
   validate,
+  stringValidate,
 };

@@ -51,6 +51,7 @@ function RoomPopup({ modalIsOpen, setIsOpen, addNewRoom }) {
         addNewRoom(data);
         closeModal();
       } catch (error) {
+        console.log(error);
         let errorMessage = "something went wrong";
         if (error?.response?.status === 409) {
           errorMessage = "room name already taken";
