@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Modal from "react-modal";
 import { registerUser } from "../../services/userApi";
-import ImageUpload from "../imageUpload/ImageUpload";
-import ImageEdit from "../imageUpload/ImageEdit";
+import ImageUpload from "../common/ImageUpload";
+import ImageEdit from "../common/ImageEdit";
 import { validateUser } from "./../../utils/validate";
+import { ErrorDisplay } from "./../common/ErrorDisplay";
+import { SubmitFormButton } from "./../buttons/SubmitFormButton";
+import { FormInput } from "./../inputs/FormInput";
 
 const customStyles = {
   content: {
@@ -85,34 +88,16 @@ function LoginPopup({ userLogin }) {
               />
               <div className="d-flex justify-content-center mt-4">
                 <form onSubmit={handleSubmit}>
-                  <div className="input-group ">
-                    <div className="input-group-append">
-                      <span className="input-group-text">
-                        <i className="fa fa-user"></i>
-                      </span>
-                    </div>
-                    <input
-                      type="text"
-                      name="username"
-                      className="form-control input_user"
-                      value={username}
-                      placeholder="username"
-                      onChange={(e) => setUsername(e.target.value)}
-                      maxLength={20}
-                    />
-                  </div>
-                  <div className="mt-0 p-0 text-center text-danger">
-                    {error}&nbsp;
-                  </div>
+                  <FormInput
+                    name="username"
+                    value={username}
+                    placeholder="username"
+                    onInputChange={setUsername}
+                    iconName="user"
+                  />
+                  <ErrorDisplay errorText={error} />
                   <div className="d-flex flex-column justify-content-center mt-2 login_container">
-                    <button
-                      type="submit"
-                      name="button"
-                      className="btn login_btn"
-                      style={{ background: "#9a3334" }}
-                    >
-                      Login
-                    </button>
+                    <SubmitFormButton className="login_btn" text="Login" />
                   </div>
                 </form>
               </div>

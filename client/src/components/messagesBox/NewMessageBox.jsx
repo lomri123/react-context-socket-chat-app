@@ -1,9 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import cleanText from "./../../utils/badWords";
+
+import cleanText from "../../utils/cleanText";
+import { SendMessageButton } from "./../buttons/SendMessageButton";
 
 function NewMessageBox({ sendNewMessage, userData }) {
   const [newMessage, updateNewMessage] = useState("");
+  const messageBoxRef = useRef(null);
+
   const handleMessageChange = (e) => {
     let value = e.target.value;
     updateNewMessage(value);
@@ -23,7 +27,6 @@ function NewMessageBox({ sendNewMessage, userData }) {
     }
   };
 
-  const messageBoxRef = useRef(null);
   useEffect(() => {
     messageBoxRef.current.focus();
   }, []);
@@ -40,9 +43,7 @@ function NewMessageBox({ sendNewMessage, userData }) {
             onChange={(e) => handleMessageChange(e)}
             ref={messageBoxRef}
           />
-          <button className="msg_send_btn" type="submit">
-            <i className="fa fa-paper-plane-o" aria-hidden="true"></i>
-          </button>
+          <SendMessageButton />
         </form>
       </div>
     </>

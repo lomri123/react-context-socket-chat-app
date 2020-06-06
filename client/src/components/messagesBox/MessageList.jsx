@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroller";
 import SingleMessage from "./SingleMessage";
-import LoadingAnimation from "./../LoadingAnimation";
+import LoadingAnimation from "../common/LoadingAnimation";
 import { getMessages } from "../../services/messageApi";
 import compareTwoMessages from "./../../utils/compareTwoMessages";
 
@@ -73,6 +73,27 @@ function MessageList({
     }
   };
 
+  const returnMessages = () => {
+    return messageList.map((message) => (
+      <SingleMessage
+        messageFrom={message.from}
+        messageText={message.text}
+        messageTime={message.createdAt}
+        key={message._id}
+        sentInd={message.sentInd}
+        currentUser={userData.username}
+      />
+    ));
+  };
+
+  const returnUnreadMessageCount = () => {
+    return unreadMessages > 0 ? (
+      <div className="unread_msg_count" onClick={scrollToBottom}>
+        {unreadMessages}
+      </div>
+    ) : null;
+  };
+
   useEffect(() => {
     if (freshMount) {
       freshMount = false;
@@ -102,37 +123,21 @@ function MessageList({
     setLastMessage(tmpLastMessage);
   }, [messageList]);
 
-  const messages = messageList.map((message) => (
-    <SingleMessage
-      messageFrom={message.from}
-      messageText={message.text}
-      messageTime={message.createdAt}
-      key={message._id}
-      sentInd={message.sentInd}
-      currentUser={userData.username}
-    />
-  ));
-
   return (
     <>
       <div className="msg_history" onScroll={handleScroll}>
         <InfiniteScroll
           loadMore={loadMore}
-          initialLoad={true}
           hasMore={hasMoreItems}
           loader={<LoadingAnimation key={0} />}
           useWindow={false}
           isReverse={true}
         >
-          {messages}
+          {returnMessages()}
           <div ref={messagesEndRef} />
         </InfiniteScroll>
       </div>
-      {unreadMessages > 0 ? (
-        <div className="unread_msg_count" onClick={scrollToBottom}>
-          {unreadMessages}
-        </div>
-      ) : null}
+      {returnUnreadMessageCount()}
     </>
   );
 }

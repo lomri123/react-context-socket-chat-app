@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
+
 import { Context } from "../contexts/DataStore";
+import { setUser, changeActiveRoom } from "../contexts/actions/actions";
+import socket from "../services/socket";
 import RoomContainer from "./RoomContainer";
 import MessagesContainer from "../containers/MessageContainer";
-import socket from "../services/socket";
 import LoginPopup from "../components/user/LoginPopup";
-import { setUser, changeActiveRoom } from "../contexts/actions/actions";
 
 function ChatContainer() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

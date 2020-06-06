@@ -234,9 +234,19 @@ img {
 }
 .login_btn {
   width: 100%;
+  background-color: #9a3334;
   color: white !important;
 }
 .login_btn:focus {
+  box-shadow: none !important;
+  outline: 0px !important;
+}
+.add_room_btn {
+  width: 100%;
+  background-color: #eaa22f;
+  color: white !important;
+}
+.add_room_btn:focus {
   box-shadow: none !important;
   outline: 0px !important;
 }

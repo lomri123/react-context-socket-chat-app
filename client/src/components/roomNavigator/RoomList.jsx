@@ -3,20 +3,22 @@ import PropTypes from "prop-types";
 import SingleRoom from "./SingleRoom";
 
 function RoomList({ chatList, handleRoomOnClick, activeRoom }) {
-  const roomList = chatList.map((room) => (
-    <SingleRoom
-      roomName={room.title}
-      roomDesc={room.description}
-      handleRoomOnClick={handleRoomOnClick}
-      activeRoom={activeRoom}
-      key={room._id}
-      roomId={room._id}
-    />
-  ));
+  const returnRooms = () => {
+    return chatList.map((room) => (
+      <SingleRoom
+        roomName={room.title}
+        roomDesc={room.description}
+        handleRoomOnClick={handleRoomOnClick}
+        activeRoom={activeRoom}
+        key={room._id}
+        roomId={room._id}
+      />
+    ));
+  };
 
   return (
     <>
-      <div className="inbox_chat">{roomList}</div>
+      <div className="inbox_chat">{returnRooms()}</div>
     </>
   );
 }

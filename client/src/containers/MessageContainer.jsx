@@ -1,22 +1,23 @@
 import React, { useContext, useEffect, useCallback, useState } from "react";
-import { Context } from "../contexts/DataStore";
 import { v4 as uuidv4 } from "uuid";
-import MessageList from "../components/messagesBox/MessageList";
-import NewMessageBox from "./../components/messagesBox/NewMessageBox";
+
 import socket from "./../services/socket";
+import { Context } from "../contexts/DataStore";
 import {
   addMessage,
   addMessages,
   updateMessageInd,
   setInitialMessages,
 } from "./../contexts/actions/actions";
+import MessageList from "../components/messagesBox/MessageList";
+import NewMessageBox from "./../components/messagesBox/NewMessageBox";
 
 function MessagesContainer() {
   const { messageData, dispatchMessageData, activeRoom, userData } = useContext(
     Context
   );
-
   const [userLastMessage, setUserLastMessage] = useState(null);
+
   const sendNewMessage = (message) => {
     const uniqueId = uuidv4();
     const myMessage = { ...message, from: userData.username, room: activeRoom };

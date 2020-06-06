@@ -1,8 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-import * as serviceWorker from "./serviceWorker";
+import "./css/index.css";
+import "font-awesome/css/font-awesome.css";
+import "bootstrap/dist/css/bootstrap.css";
+import App from "./containers/App";
+import * as serviceWorker from "./services/serviceWorker";
 
 ReactDOM.render(<App />, document.getElementById("root"));
 

@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Modal from "react-modal";
+
 import { addRoom } from "../../services/roomApi";
-import cleanText from "../../utils/badWords";
-import ImageUpload from "../imageUpload/ImageUpload";
-import ImageEdit from "../imageUpload/ImageEdit";
+import cleanText from "../../utils/cleanText";
+import ImageUpload from "../common/ImageUpload";
+import ImageEdit from "../common/ImageEdit";
+import { SubmitFormButton } from "./../buttons/SubmitFormButton";
+import { FormInput } from "./../inputs/FormInput";
+import { ErrorDisplay } from "./../common/ErrorDisplay";
+import { validateRoom } from "../../utils/validate";
 
 const customStyles = {
   content: {
@@ -39,9 +44,8 @@ function RoomPopup({ modalIsOpen, setIsOpen, addNewRoom }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const cleanRoomName = cleanText(roomName);
-    const cleanRoomDesc = cleanText(roomDesc);
-    if (roomName === cleanRoomName && roomDesc === cleanRoomDesc) {
+    const roomValidate = validateRoom(roomName, roomDesc);
+    if (!roomValidate.error) {
       const roomData = {
         title: roomName,
         description: roomDesc,
@@ -59,7 +63,7 @@ function RoomPopup({ modalIsOpen, setIsOpen, addNewRoom }) {
         setError(errorMessage);
       }
     } else {
-      setError("only clean names please");
+      setError(roomValidate.error);
     }
   }
 
@@ -89,38 +93,26 @@ function RoomPopup({ modalIsOpen, setIsOpen, addNewRoom }) {
               />
               <div className="d-flex justify-content-center mt-4">
                 <form onSubmit={handleSubmit}>
-                  <div className="input-group mt-4">
-                    <input
-                      type="text"
-                      name="roomName"
-                      className="form-control input_user"
-                      value={roomName}
-                      placeholder="room name"
-                      onChange={(e) => setRoomName(e.target.value)}
-                    />
-                  </div>
-                  <div className="input-group mt-3">
-                    <input
-                      type="text"
-                      name="roomDesc"
-                      className="form-control input_user"
-                      value={roomDesc}
-                      placeholder="description"
-                      onChange={(e) => setRoomDesc(e.target.value)}
-                    />
-                  </div>
-                  <div className="mt-0 p-0 text-center text-danger">
-                    {error}&nbsp;
-                  </div>
+                  <FormInput
+                    name="roomName"
+                    value={roomName}
+                    className="mt-4"
+                    placeholder="room name"
+                    onInputChange={setRoomName}
+                  />
+                  <FormInput
+                    name="roomDesc"
+                    value={roomDesc}
+                    className="mt-3"
+                    placeholder="room description"
+                    onInputChange={setRoomDesc}
+                  />
+                  <ErrorDisplay errorText={error} />
                   <div className="d-flex flex-column justify-content-center mt-2 login_container">
-                    <button
-                      type="submit"
-                      name="button"
-                      className="btn login_btn"
-                      style={{ background: "#eaa22f" }}
-                    >
-                      Create room
-                    </button>
+                    <SubmitFormButton
+                      className="add_room_btn"
+                      text="Create room"
+                    />
                   </div>
                 </form>
               </div>

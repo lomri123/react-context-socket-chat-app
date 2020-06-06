@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
-import { Context } from "../contexts/DataStore";
-import RoomList from "../components/roomNavigator/RoomList";
-import RoomTopBar from "../components/roomNavigator/RoomTopBar";
+
 import socket from "./../services/socket";
 import { getRooms } from "./../services/roomApi";
+import { Context } from "../contexts/DataStore";
 import {
   addRoom,
   addRooms,
   changeActiveRoom,
 } from "../contexts/actions/actions";
+import RoomList from "../components/roomNavigator/RoomList";
+import RoomTopBar from "../components/roomNavigator/RoomTopBar";
 import RoomPopup from "../components/roomNavigator/RoomPopup";
 
 function RoomContainer() {

@@ -9,6 +9,8 @@ function SingleRoom({
   activeRoom,
   roomId,
 }) {
+  const avatarSrc = `https://res.cloudinary.com/dgskc3t8b/image/upload/v1590802411/chat/rooms/${roomName}.png`;
+
   return (
     <div
       className={`chat_list ${roomId === activeRoom ? "active_chat" : ""}`}
@@ -18,7 +20,7 @@ function SingleRoom({
         <div className="chat_img">
           <Avatar
             name={roomName}
-            src={`https://res.cloudinary.com/dgskc3t8b/image/upload/v1590802411/chat/rooms/${roomName}.png`}
+            src={avatarSrc}
             size="48px"
             maxInitials={4}
             round

@@ -1,13 +1,32 @@
-import cleanText from "./badWords";
+import cleanText from "./cleanText";
 
 export const validateUser = (username) => {
-  const cleanUsername = cleanText(username);
-  if (username === cleanUsername) {
+  if (username === "") {
+    return { error: "please fill in a name" };
+  }
+  const isCleanName = username === cleanText(username);
+  if (isCleanName) {
     if (username.length > 20) {
       return { error: "maximum 20 characters" };
     }
   } else {
-    return { error: "Your parents are mean :(" };
+    return { error: "your parents are mean :(" };
+  }
+  return {};
+};
+
+export const validateRoom = (roomName, roomDesc) => {
+  if (roomName === "") {
+    return { error: "please fill in a room name" };
+  }
+  const isCleanName = roomName === cleanText(roomName);
+  const isCleanDesc = roomDesc === cleanText(roomDesc);
+  if (isCleanName && isCleanDesc) {
+    if (roomName.length > 20 || roomDesc.length > 20) {
+      return { error: "maximum 20 characters" };
+    }
+  } else {
+    return { error: "no 18+ rooms" };
   }
   return {};
 };
