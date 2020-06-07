@@ -68,19 +68,19 @@ function RoomContainer() {
 
   return (
     <>
-      <div className="inbox_people">
+      <div className="col-lg-4 col-2 rooms_box">
         <RoomTopBar handleRoomSearch={handleRoomSearch} setIsOpen={setIsOpen} />
         <RoomList
           chatList={returnRoomList()}
           handleRoomOnClick={handleRoomChange}
           activeRoom={activeRoom}
         />
+        <RoomPopup
+          modalIsOpen={modalIsOpen}
+          setIsOpen={setIsOpen}
+          addNewRoom={addNewRoom}
+        />
       </div>
-      <RoomPopup
-        modalIsOpen={modalIsOpen}
-        setIsOpen={setIsOpen}
-        addNewRoom={addNewRoom}
-      />
     </>
   );
 }

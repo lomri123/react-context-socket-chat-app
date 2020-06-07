@@ -9,8 +9,10 @@ const fetchUser = (id) => {
 };
 
 const authenticateUser = async (id, username) => {
+  if (!id || !username) return false;
   const user = await User.findById(id);
-  return user.username === username;
+  if (user) return user.username === username;
+  return false;
 };
 
 const deleteUser = (id) => {

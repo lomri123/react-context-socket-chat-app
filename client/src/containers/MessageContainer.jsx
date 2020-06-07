@@ -72,7 +72,7 @@ function MessagesContainer() {
 
   return (
     <>
-      <div className="mesgs">
+      <div className="mesgs col-lg-8 col-10 border overflow-auto">
         <MessageList
           messageList={messageData}
           addNewMessages={addNewMessages}

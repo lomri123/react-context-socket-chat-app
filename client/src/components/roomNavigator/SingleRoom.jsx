@@ -16,8 +16,8 @@ function SingleRoom({
       className={`chat_list ${roomId === activeRoom ? "active_chat" : ""}`}
       onClick={() => handleRoomOnClick(roomId)}
     >
-      <div className="chat_people">
-        <div className="chat_img">
+      <div className="row chat_room">
+        <div className="col-2">
           <Avatar
             name={roomName}
             src={avatarSrc}
@@ -26,9 +26,11 @@ function SingleRoom({
             round
           />
         </div>
-        <div className="chat_ib">
-          <h5>{roomName}</h5>
-          <p>{roomDesc}</p>
+        <div className="chat_ib col-10 ">
+          <div className="ml-2">
+            <h5>{roomName}</h5>
+            <p>{roomDesc}</p>
+          </div>
         </div>
       </div>
     </div>

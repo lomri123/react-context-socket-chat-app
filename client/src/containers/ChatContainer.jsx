@@ -38,12 +38,10 @@ function ChatContainer() {
   return (
     <>
       <h1 className="logo my-4">Chat app</h1>
-      <div className="messaging">
-        <div className="inbox_msg">
-          {isLoggedIn ? null : <LoginPopup userLogin={userLogin} />}
-          <RoomContainer />
-          <MessagesContainer />
-        </div>
+      {isLoggedIn ? null : <LoginPopup userLogin={userLogin} />}
+      <div className="row chat_inner">
+        <RoomContainer />
+        <MessagesContainer />
       </div>
     </>
   );

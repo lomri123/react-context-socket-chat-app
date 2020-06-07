@@ -12,10 +12,13 @@ function SingleMessage({
 }) {
   const [today] = useState(moment());
   const isCurrent = messageFrom === currentUser ? true : false;
-  const wrapperClassName = isCurrent ? "outgoing_msg" : "incoming_msg";
-  const senderClassName = isCurrent ? "sent_msg" : "received_msg";
+  const wrapperClassName = `mb-2 container row justify-content-${
+    isCurrent ? "end" : "start"
+  }`;
+  const senderClassName = `col${isCurrent ? "-md-6" : ""}`;
   const avatarSrc = `https://res.cloudinary.com/dgskc3t8b/image/upload/v1590802411/chat/users/${messageFrom}.png`;
-  const sentIndClassName = sentInd ? "text-secondary" : "";
+  const sentIndClassName = isCurrent ? "sent_msg" : "received_withd_msg";
+  const messageTextClass = sentInd ? "text-secondary" : "";
 
   const formatTimestamp = () => {
     if (moment(messageTime).isSame(today, "day")) {
@@ -27,7 +30,7 @@ function SingleMessage({
   return (
     <div className={wrapperClassName}>
       {isCurrent ? null : (
-        <div className="incoming_msg_img pt-1">
+        <div className="">
           <Avatar
             name={messageFrom}
             src={avatarSrc}
@@ -39,12 +42,12 @@ function SingleMessage({
       )}
       <div className={senderClassName}>
         {messageFrom === currentUser ? null : (
-          <p className="received_msg_from m-0 pl-1 font-weight-bold font-italic">
+          <p className="received_msg_from m-0 font-weight-bold font-italic">
             {messageFrom}
           </p>
         )}
-        <div className="received_withd_msg">
-          <p className={sentIndClassName}>{messageText}</p>
+        <div className={sentIndClassName}>
+          <p className={messageTextClass}>{messageText}</p>
           <span className="time_date">{formatTimestamp()}</span>
         </div>
       </div>
