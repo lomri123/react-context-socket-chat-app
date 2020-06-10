@@ -73,7 +73,7 @@ io.on("connection", (socket) => {
         );
       }
     });
-    socket.on("change room", function (data) {
+    socket.on("changeRoom", function (data) {
       const { newroom } = data;
       userChangeRoom(socket.id, newroom);
       socket.leave(room);

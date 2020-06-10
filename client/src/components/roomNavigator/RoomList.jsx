@@ -12,6 +12,7 @@ function RoomList({ chatList, handleRoomOnClick, activeRoom }) {
         activeRoom={activeRoom}
         key={room._id}
         roomId={room._id}
+        isImage={room.isImage}
       />
     ));
   };

@@ -1,7 +1,7 @@
 const Room = require("../roomModel");
 
 const fetchAllRooms = () => {
-  return Room.find({}, { _id: 1, title: 1, description: 1 });
+  return Room.find({}, { _id: 1, title: 1, description: 1, isImage: 1 });
 };
 
 const fetchShallowRooms = () => {

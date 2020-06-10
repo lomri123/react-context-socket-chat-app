@@ -9,14 +9,17 @@ function SingleMessage({
   messageTime,
   sentInd,
   currentUser,
+  isImage,
 }) {
   const [today] = useState(moment());
   const isCurrent = messageFrom === currentUser ? true : false;
   const wrapperClassName = `mb-2 container row justify-content-${
     isCurrent ? "end" : "start"
   }`;
-  const senderClassName = `col${isCurrent ? "-md-6" : ""}`;
-  const avatarSrc = `https://res.cloudinary.com/dgskc3t8b/image/upload/v1590802411/chat/users/${messageFrom}.png`;
+  const senderClassName = `col${isCurrent ? "-md-6 col-10" : ""}`;
+  const avatarSrc = isImage
+    ? `https://res.cloudinary.com/dgskc3t8b/image/upload/w_48,h_48,c_scale/v1590802411/chat/users/${messageFrom}`
+    : "";
   const sentIndClassName = isCurrent ? "sent_msg" : "received_withd_msg";
   const messageTextClass = sentInd ? "text-secondary" : "";
 
@@ -60,6 +63,7 @@ SingleMessage.propTypes = {
   messageText: PropTypes.string,
   messageTime: PropTypes.string,
   sentInd: PropTypes.bool,
+  isImage: PropTypes.bool,
   currentUser: PropTypes.string,
 };
 

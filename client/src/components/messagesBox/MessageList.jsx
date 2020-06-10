@@ -35,7 +35,7 @@ function MessageList({
       );
       const { data } = result;
       if (data.length > 0) {
-        if (records === 0) {
+        if (records === 0 || isReset) {
           addNewMessages(data, true);
           scrollToBottom();
         } else {

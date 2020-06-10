@@ -8,8 +8,9 @@ function SingleRoom({
   handleRoomOnClick,
   activeRoom,
   roomId,
+  isImage,
 }) {
-  const avatarSrc = `https://res.cloudinary.com/dgskc3t8b/image/upload/v1590802411/chat/rooms/${roomName}.png`;
+  const avatarSrc = `https://res.cloudinary.com/dgskc3t8b/image/upload/w_48,h_48,c_scale/v1590802411/chat/rooms/${roomName}`;
 
   return (
     <div
@@ -20,7 +21,7 @@ function SingleRoom({
         <div className="col-2">
           <Avatar
             name={roomName}
-            src={avatarSrc}
+            src={isImage ? avatarSrc : false}
             size="48px"
             maxInitials={4}
             round
