@@ -29,7 +29,7 @@ function MessageList({
 
   const loadMore = async (isReset) => {
     let fetchStart = itemsPerPage;
-    if (isReset) fetchStart += records;
+    if (!isReset) fetchStart += records;
     try {
       const result = await getMessages(activeRoom, -1 * fetchStart);
       const { data } = result;
@@ -55,7 +55,6 @@ function MessageList({
   };
 
   const resetScroller = () => {
-    setRecords(0);
     setHasMoreItems(true);
     loadMore(true);
     setUnreadMessages(0);
