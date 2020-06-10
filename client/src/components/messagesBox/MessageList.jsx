@@ -28,11 +28,10 @@ function MessageList({
   };
 
   const loadMore = async (isReset) => {
+    let fetchStart = itemsPerPage;
+    if (isReset) fetchStart += records;
     try {
-      const result = await getMessages(
-        activeRoom,
-        -1 * (records + itemsPerPage)
-      );
+      const result = await getMessages(activeRoom, -1 * fetchStart);
       const { data } = result;
       if (data.length > 0) {
         if (records === 0 || isReset) {
@@ -127,11 +126,12 @@ function MessageList({
     <>
       <div className="msg_history" onScroll={handleScroll}>
         <InfiniteScroll
-          loadMore={loadMore}
+          loadMore={() => loadMore(false)}
           hasMore={hasMoreItems}
           loader={<LoadingAnimation key={0} />}
           useWindow={false}
           isReverse={true}
+          initialLoad={true}
         >
           {returnMessages()}
           <div ref={messagesEndRef} />

@@ -21,7 +21,7 @@ function SingleRoom({
         <div className="col-2">
           <Avatar
             name={roomName}
-            src={isImage ? avatarSrc : false}
+            src={isImage ? avatarSrc : ""}
             size="48px"
             maxInitials={4}
             round
